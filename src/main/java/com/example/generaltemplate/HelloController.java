@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -19,15 +20,13 @@ public class HelloController {
 
     @FXML
     public Label lblDisplay;
-
     @FXML
     public TextField txtInput;
     @FXML
     public Button startPlayBtn;
-    private TimerTask task;
-    private int currentTime;
+    private int timeElapsed;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
-    private ArrayList<Timer> allTimers = new ArrayList<>();
+    private final ArrayList<Timer> allTimers = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -47,10 +46,33 @@ public class HelloController {
     }
 
     @FXML
-    public void startBtnClick(ActionEvent actionEvent) {
+    public void startBtnClick(ActionEvent actionEvent) throws IOException {
         Timer timer = new Timer();
         allTimers.add(timer);
+        fakeScreenController.activate("playView");
         timer.schedule(new TimerTicker(), 0 , 1000);
+        System.out.println(getRandWord());
+    }
+
+    private String getRandWord() throws IOException {
+        String path = "src/main/java/com/example/generaltemplate/words.txt";
+        BufferedReader lineNumReader = new BufferedReader(new FileReader(path));
+        int numLines = 0;
+        while (lineNumReader.readLine() != null) {
+            numLines++;
+        }
+        lineNumReader.close();
+
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        int randNum = generateRandNum(0, numLines-1);
+        for (int i = 0; i < randNum; i++) {
+            reader.readLine();
+        }
+        return reader.readLine();
+    }
+
+    private int generateRandNum(int minInc, int maxInc) {
+        return minInc + (int) (Math.random()*((maxInc - minInc) + 1));
     }
 
     public class TimerTicker extends TimerTask {
@@ -59,8 +81,8 @@ public class HelloController {
             System.out.println("Start time is at :" +
                     LocalDateTime.ofInstant(Instant.ofEpochMilli(scheduledExecutionTime()), ZoneId.systemDefault()));
             try {
-                currentTime++;
-                if (currentTime >= 5) {
+                timeElapsed++;
+                if (timeElapsed >= 5) {
                     fakeScreenController.activate("playEndView");
                     cancel();
                 }
@@ -71,7 +93,7 @@ public class HelloController {
             }
         }
         private void tick() {
-            lblDisplay.setText("Time: " + currentTime);
+            lblDisplay.setText("Time: " + timeElapsed);
         }
     }
 
