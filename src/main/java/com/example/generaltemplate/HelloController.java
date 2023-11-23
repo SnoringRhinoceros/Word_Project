@@ -20,11 +20,13 @@ public class HelloController {
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, endPlayViewAnchorPane;
     @FXML
     public Label timeLbl, wordToGuessLbl;
+    @FXML
+    public Label statusTxtLbl;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     private JobGame currentJobGame;
     // in seconds
-    private int TIMER_END_TIME = 5;
+    private int TIMER_END_TIME = 10000;
 
     @FXML
     public void initialize() {
@@ -75,6 +77,7 @@ public class HelloController {
     public void updatePlayView() {
         timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
         wordToGuessLbl.setText(currentJobGame.getHiddenChosenWord());
+        statusTxtLbl.setText(currentJobGame.getWordGuessedRight());
         if (currentJobGame.wordFullyGuessed()) {
             submitBtn.setText("Next Word");
         } else {

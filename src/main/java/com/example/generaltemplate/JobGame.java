@@ -19,6 +19,7 @@ public class JobGame {
     private String chosenWord;
     private String hiddenChosenWord;
     private final ArrayList<Character> guessedLetters;
+    private String wordGuessedRight;
 
     public JobGame() {
         timer = new Timer();
@@ -52,6 +53,14 @@ public class JobGame {
 
     public boolean wordFullyGuessed() {
         return !hiddenChosenWord.contains("_");
+    }
+
+    private void updateWordGuessedRight(boolean wordGuessedRight) {
+        if (wordGuessedRight) {
+            this.wordGuessedRight = "Correct!";
+        } else {
+            this.wordGuessedRight = "Wrong :(";
+        }
     }
 
     public class TimerTicker extends TimerTask {
@@ -102,7 +111,9 @@ public class JobGame {
     }
 
     public void guess(char guess) {
-        guessedLetters.add(Character.toLowerCase(guess));
+        guess = Character.toLowerCase(guess);
+        updateWordGuessedRight(chosenWord.toLowerCase().indexOf(guess) != -1);
+        guessedLetters.add(guess);
         setHiddenChosenWord();
     }
 
@@ -116,5 +127,9 @@ public class JobGame {
 
     public String getHiddenChosenWord() {
         return hiddenChosenWord;
+    }
+
+    public String getWordGuessedRight() {
+        return wordGuessedRight;
     }
 }

@@ -8,6 +8,16 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.generaltemplate.HelloController">
    <children>
+      <AnchorPane fx:id="startViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="startPlayBtn" layoutX="280.0" layoutY="124.0" mnemonicParsing="false" onAction="#startBtnClick" text="Start" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="endPlayViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Button layoutX="264.0" layoutY="309.0" mnemonicParsing="false" onAction="#playAgainBtnClick" text="Play Again" />
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="playViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
             <Label fx:id="timeLbl" layoutX="265.0" layoutY="27.0" text="Timer">
@@ -21,16 +31,7 @@
                   <Font size="25.0" />
                </font>
             </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="startViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
-         <children>
-            <Button fx:id="startPlayBtn" layoutX="280.0" layoutY="124.0" mnemonicParsing="false" onAction="#startBtnClick" text="Start" />
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="endPlayViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
-         <children>
-            <Button layoutX="264.0" layoutY="309.0" mnemonicParsing="false" onAction="#playAgainBtnClick" text="Play Again" />
+            <Label fx:id="statusTxtLbl" layoutX="289.0" layoutY="209.0" text="Label" />
          </children>
       </AnchorPane>
    </children>
