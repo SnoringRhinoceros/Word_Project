@@ -8,20 +8,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-import java.io.*;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 public class HelloController {
     @FXML
     public TextField txtInput;
     @FXML
-    public Button startPlayBtn;
+    public Button startPlayBtn, submitBtn;;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, endPlayViewAnchorPane;
     @FXML
@@ -56,6 +50,7 @@ public class HelloController {
         currentJobGame = new JobGame();
         fakeScreenController.activate("playView");
         currentJobGame.start(new onTimerUpdateTask());
+        updatePlayView();
     }
     public class onTimerUpdateTask implements Runnable {
         @Override
@@ -68,18 +63,29 @@ public class HelloController {
         }
 
         private void updateFXMLElementsOnTimerUpdate() {
-            updatePlayView();
+            timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
+            wordToGuessLbl.setText(currentJobGame.getHiddenChosenWord());
         }
     }
 
     public void updatePlayView() {
         timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
         wordToGuessLbl.setText(currentJobGame.getHiddenChosenWord());
+        if (currentJobGame.wordFullyGuessed()) {
+            submitBtn.setText("Next Word");
+        } else {
+            submitBtn.setText("Submit");
+        }
     }
 
     @FXML
     public void submitBtnClick(ActionEvent actionEvent) {
-        currentJobGame.guess(txtInput.getText().charAt(0));
+        if (currentJobGame.wordFullyGuessed()) {
+            currentJobGame.makeNewChosenWord();
+            // handle logic for word is guessed
+        } else {
+            currentJobGame.guess(txtInput.getText().charAt(0));
+        }
         updatePlayView();
     }
 

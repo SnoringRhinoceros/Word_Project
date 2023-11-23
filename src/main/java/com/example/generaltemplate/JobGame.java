@@ -27,10 +27,15 @@ public class JobGame {
     }
 
     public void start(HelloController.onTimerUpdateTask onTimerUpdateTask) {
+        makeNewChosenWord();
+        timer.schedule(new TimerTicker(onTimerUpdateTask), 0 , 1000);
+    }
+
+    public void makeNewChosenWord() {
+        guessedLetters.clear();
         chosenWord = getRandWord();
         System.out.println(chosenWord);
         setHiddenChosenWord();
-        timer.schedule(new TimerTicker(onTimerUpdateTask), 0 , 1000);
     }
 
     private void setHiddenChosenWord() {
@@ -43,6 +48,10 @@ public class JobGame {
                 hiddenChosenWord += "_";
             }
         }
+    }
+
+    public boolean wordFullyGuessed() {
+        return !hiddenChosenWord.contains("_");
     }
 
     public class TimerTicker extends TimerTask {

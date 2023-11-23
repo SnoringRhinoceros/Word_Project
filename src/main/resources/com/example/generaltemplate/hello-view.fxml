@@ -21,7 +21,7 @@
                   <Font name="Calisto MT" size="30.0" />
                </font></Label>
             <TextField fx:id="txtInput" layoutX="226.0" layoutY="237.0" />
-            <Button layoutX="275.0" layoutY="272.0" mnemonicParsing="false" onAction="#submitBtnClick" text="Submit" />
+            <Button fx:id="submitBtn" layoutX="275.0" layoutY="272.0" mnemonicParsing="false" onAction="#submitBtnClick" text="Submit" />
             <Label fx:id="wordToGuessLbl" layoutX="218.0" layoutY="173.0" text="Word To Guess">
                <font>
                   <Font size="25.0" />
