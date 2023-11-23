@@ -22,12 +22,12 @@ public class HelloController {
     public TextField txtInput;
     @FXML
     public Button startPlayBtn;
-    private final FakeScreenController fakeScreenController = new FakeScreenController();
-    public final static ArrayList<Timer> allTimers = new ArrayList<>();
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, endPlayViewAnchorPane;
     @FXML
-    public Label timeLbl;
+    public Label timeLbl, wordToGuessLbl;
+    private final FakeScreenController fakeScreenController = new FakeScreenController();
+    public final static ArrayList<Timer> allTimers = new ArrayList<>();
     private JobGame currentJobGame;
 
     @FXML
@@ -68,16 +68,18 @@ public class HelloController {
         }
 
         private void updateFXMLElementsOnTimerUpdate() {
-            timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
+            updatePlayView();
         }
     }
 
     public void updatePlayView() {
-
+        timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
+        wordToGuessLbl.setText(currentJobGame.getHiddenChosenWord());
     }
 
     @FXML
     public void submitBtnClick(ActionEvent actionEvent) {
+
     }
 
 }

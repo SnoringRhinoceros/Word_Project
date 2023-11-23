@@ -16,6 +16,7 @@ public class JobGame {
     private final Timer timer;
     private int timeElapsed;
     private String chosenWord;
+    private String hiddenChosenWord;
 
     public JobGame() {
         timer = new Timer();
@@ -24,7 +25,16 @@ public class JobGame {
 
     public void start(HelloController.onTimerUpdateTask onTimerUpdateTask) {
         chosenWord = getRandWord();
+        setHiddenChosenWord();
         timer.schedule(new TimerTicker(onTimerUpdateTask), 0 , 1000);
+    }
+
+    private void setHiddenChosenWord() {
+        hiddenChosenWord = "";
+        for (int i = 0; i < chosenWord.length(); i++) {
+//            char c = chosenWord.charAt(i);
+            hiddenChosenWord += "_";
+        }
     }
 
     public class TimerTicker extends TimerTask {
@@ -80,5 +90,9 @@ public class JobGame {
 
     public Timer getTimer() {
         return timer;
+    }
+
+    public String getHiddenChosenWord() {
+        return hiddenChosenWord;
     }
 }
