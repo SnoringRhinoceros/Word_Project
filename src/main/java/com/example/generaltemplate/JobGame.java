@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -17,14 +18,17 @@ public class JobGame {
     private int timeElapsed;
     private String chosenWord;
     private String hiddenChosenWord;
+    private final ArrayList<Character> guessedLetters;
 
     public JobGame() {
         timer = new Timer();
         allTimers.add(timer);
+        guessedLetters = new ArrayList<>();
     }
 
     public void start(HelloController.onTimerUpdateTask onTimerUpdateTask) {
         chosenWord = getRandWord();
+        System.out.println(chosenWord);
         setHiddenChosenWord();
         timer.schedule(new TimerTicker(onTimerUpdateTask), 0 , 1000);
     }
@@ -32,8 +36,12 @@ public class JobGame {
     private void setHiddenChosenWord() {
         hiddenChosenWord = "";
         for (int i = 0; i < chosenWord.length(); i++) {
-//            char c = chosenWord.charAt(i);
-            hiddenChosenWord += "_";
+            char c = chosenWord.charAt(i);
+            if (guessedLetters.contains(Character.toLowerCase(c))) {
+                hiddenChosenWord += c;
+            } else {
+                hiddenChosenWord += "_";
+            }
         }
     }
 
@@ -82,6 +90,11 @@ public class JobGame {
 
     private int generateRandNum(int minInc, int maxInc) {
         return minInc + (int) (Math.random()*((maxInc - minInc) + 1));
+    }
+
+    public void guess(char guess) {
+        guessedLetters.add(Character.toLowerCase(guess));
+        setHiddenChosenWord();
     }
 
     public int getTimeElapsed() {

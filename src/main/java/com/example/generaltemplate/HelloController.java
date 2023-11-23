@@ -60,7 +60,7 @@ public class HelloController {
     public class onTimerUpdateTask implements Runnable {
         @Override
         public void run() {
-            if (currentJobGame.getTimeElapsed() >= 5) {
+            if (currentJobGame.getTimeElapsed() >= 10000) {
                 fakeScreenController.activate("playEndView");
                 currentJobGame.getTimer().cancel();
             }
@@ -79,7 +79,8 @@ public class HelloController {
 
     @FXML
     public void submitBtnClick(ActionEvent actionEvent) {
-
+        currentJobGame.guess(txtInput.getText().charAt(0));
+        updatePlayView();
     }
 
 }
