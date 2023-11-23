@@ -23,6 +23,8 @@ public class HelloController {
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     private JobGame currentJobGame;
+    // in seconds
+    private int TIMER_END_TIME = 5;
 
     @FXML
     public void initialize() {
@@ -52,12 +54,14 @@ public class HelloController {
         currentJobGame.start(new onTimerUpdateTask());
         updatePlayView();
     }
+
     public class onTimerUpdateTask implements Runnable {
         @Override
         public void run() {
-            if (currentJobGame.getTimeElapsed() >= 10000) {
+            if (currentJobGame.getTimeElapsed() >= TIMER_END_TIME) {
                 fakeScreenController.activate("playEndView");
                 currentJobGame.getTimer().cancel();
+                txtInput.clear();
             }
             Platform.runLater(this::updateFXMLElementsOnTimerUpdate);
         }
@@ -86,6 +90,14 @@ public class HelloController {
         } else {
             currentJobGame.guess(txtInput.getText().charAt(0));
         }
+        updatePlayView();
+    }
+
+    @FXML
+    public void playAgainBtnClick(ActionEvent actionEvent) {
+        currentJobGame = new JobGame();
+        fakeScreenController.activate("playView");
+        currentJobGame.start(new onTimerUpdateTask());
         updatePlayView();
     }
 
