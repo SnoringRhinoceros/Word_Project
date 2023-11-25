@@ -75,27 +75,39 @@ public class HelloController {
 
         private void updateFXMLElementsOnTimerUpdate() {
             timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
-            wordToGuessLbl.setText(currentJobGame.getHiddenChosenWord());
+            wordToGuessLbl.setText(currentJobGame.getChosenWord().getHiddenChosenWord());
         }
     }
 
     public void updatePlayView() {
         timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
-        wordToGuessLbl.setText(currentJobGame.getHiddenChosenWord());
+        wordToGuessLbl.setText(currentJobGame.getChosenWord().getHiddenChosenWord());
         if (currentJobGame.getGuesses().getMostRecentGuess() != null) {
             statusTxtLbl.setText(currentJobGame.getGuesses().getMostRecentGuess().getCorrectText());
         }
-        if (currentJobGame.wordFullyGuessed()) {
+        if (currentJobGame.getChosenWord().wordFullyGuessed()) {
             submitBtn.setText("Next Word");
+            submitBtn.setDisable(false);
         } else {
             submitBtn.setText("Submit");
+            submitBtn.setDisable(false);
+            if (!txtInput.getText().isEmpty() && txtInput.getText().length() == 1) {
+                for (Guess guess: currentJobGame.getGuesses().getAllGuesses()) {
+                    if (guess.getLetter() == txtInput.getText().charAt(0)) {
+                        submitBtn.setDisable(true);
+                        break;
+                    }
+                }
+            } else {
+                submitBtn.setDisable(true);
+            }
         }
         updateGuessedLettersTextArea();
     }
 
     private void updateGuessedLettersTextArea() {
+        guessedLettersTextArea.setText("# Questions Correct: " + currentJobGame.getWordsCorrect()+"\n\n");
         if (!currentJobGame.getGuesses().getAllGuesses().isEmpty()) {
-            guessedLettersTextArea.setText("Guesses\n\n");
             guessedLettersTextArea.appendText("Correct Guesses:\n");
             for (Guess guess: currentJobGame.getGuesses().getCorrectGuesses()) {
                 guessedLettersTextArea.appendText(guess.getLetter() + "\n");
@@ -106,12 +118,13 @@ public class HelloController {
             }
         } else {
             guessedLettersTextArea.clear();
+            guessedLettersTextArea.setText("# Questions Correct: " + currentJobGame.getWordsCorrect()+"\n\n");
         }
     }
 
     @FXML
     public void submitBtnClick(ActionEvent actionEvent) {
-        if (currentJobGame.wordFullyGuessed()) {
+        if (currentJobGame.getChosenWord().wordFullyGuessed()) {
             currentJobGame.makeNewChosenWord();
             // handle logic for word is guessed
         } else {

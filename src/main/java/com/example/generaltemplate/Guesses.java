@@ -3,10 +3,11 @@ package com.example.generaltemplate;
 import java.util.ArrayList;
 
 public class Guesses {
-    private ArrayList<Guess> allGuesses;
+    private final ArrayList<Guess> allGuesses;
     private Guess mostRecentGuess;
-    private ArrayList<Guess> correctGuesses;
-    private ArrayList<Guess> incorrectGuesses;
+    private final ArrayList<Guess> correctGuesses;
+    private final ArrayList<Guess> incorrectGuesses;
+    private int wordsCorrect;
 
     public Guesses() {
         allGuesses = new ArrayList<>();
@@ -21,7 +22,7 @@ public class Guesses {
         incorrectGuesses.clear();
     }
 
-    public void guess(String chosenWord, char guess) {
+    public void guess(ChosenWord chosenWord, char guess) {
         mostRecentGuess = new Guess(chosenWord, guess);
         allGuesses.add(mostRecentGuess);
         if (mostRecentGuess.getCorrectText().equals("Correct!")) {
@@ -46,5 +47,9 @@ public class Guesses {
 
     public ArrayList<Guess> getIncorrectGuesses() {
         return incorrectGuesses;
+    }
+
+    public int getWordsCorrect() {
+        return wordsCorrect;
     }
 }

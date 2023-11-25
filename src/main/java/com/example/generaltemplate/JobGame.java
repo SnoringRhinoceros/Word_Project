@@ -16,9 +16,10 @@ import static com.example.generaltemplate.HelloController.allTimers;
 public class JobGame {
     private final Timer timer;
     private int timeElapsed;
-    private String chosenWord;
-    private String hiddenChosenWord;
     private Guesses guesses;
+    private ChosenWord chosenWord;
+    private int wordsCorrect;
+
     public JobGame() {
         timer = new Timer();
         allTimers.add(timer);
@@ -32,33 +33,8 @@ public class JobGame {
 
     public void makeNewChosenWord() {
         guesses.clear();
-        chosenWord = getRandWord();
-        System.out.println(chosenWord);
-        setHiddenChosenWord();
-    }
-
-    private void setHiddenChosenWord() {
-        hiddenChosenWord = "";
-        for (int i = 0; i < chosenWord.length(); i++) {
-            char c = chosenWord.charAt(i);
-            boolean wordFound = false;
-            for (Guess guess: guesses.getAllGuesses()) {
-                if (String.valueOf(guess.getLetter()).equals(String.valueOf(Character.toLowerCase(c)))) {
-                    wordFound = true;
-                    break;
-                }
-            }
-            if (wordFound) {
-                hiddenChosenWord += c;
-                wordFound = false;
-            } else {
-                hiddenChosenWord += "_";
-            }
-        }
-    }
-
-    public boolean wordFullyGuessed() {
-        return !hiddenChosenWord.contains("_");
+        chosenWord = new ChosenWord();
+        chosenWord.setHiddenChosenWord(guesses);
     }
 
     public class TimerTicker extends TimerTask {
@@ -69,8 +45,8 @@ public class JobGame {
 
         @Override
         public void run() {
-            System.out.println("Start time is at :" +
-                    LocalDateTime.ofInstant(Instant.ofEpochMilli(scheduledExecutionTime()), ZoneId.systemDefault()));
+//            System.out.println("Start time is at :" +
+//                    LocalDateTime.ofInstant(Instant.ofEpochMilli(scheduledExecutionTime()), ZoneId.systemDefault()));
             try {
                 timeElapsed++;
                 onTimerUpdateTask.run();
@@ -81,36 +57,12 @@ public class JobGame {
         }
     }
 
-
-    private String getRandWord() {
-        try {
-            String path = "src/main/java/com/example/generaltemplate/words.txt";
-            BufferedReader lineNumReader = new BufferedReader(new FileReader(path));
-            int numLines = 0;
-            while (lineNumReader.readLine() != null) {
-                numLines++;
-            }
-            lineNumReader.close();
-
-            BufferedReader reader = new BufferedReader(new FileReader(path));
-            int randNum = generateRandNum(0, numLines-1);
-            for (int i = 0; i < randNum; i++) {
-                reader.readLine();
-            }
-            return reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private int generateRandNum(int minInc, int maxInc) {
-        return minInc + (int) (Math.random()*((maxInc - minInc) + 1));
-    }
-
     public void guess(char guess) {
         guesses.guess(chosenWord, guess);
-        setHiddenChosenWord();
+        chosenWord.setHiddenChosenWord(guesses);
+        if (chosenWord.wordFullyGuessed()) {
+            wordsCorrect++;
+        }
     }
 
     public int getTimeElapsed() {
@@ -121,11 +73,15 @@ public class JobGame {
         return timer;
     }
 
-    public String getHiddenChosenWord() {
-        return hiddenChosenWord;
+    public ChosenWord getChosenWord() {
+        return chosenWord;
     }
 
     public Guesses getGuesses() {
         return guesses;
+    }
+
+    public int getWordsCorrect() {
+        return wordsCorrect;
     }
 }

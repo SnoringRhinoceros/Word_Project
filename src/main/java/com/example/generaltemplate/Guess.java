@@ -3,9 +3,9 @@ package com.example.generaltemplate;
 public class Guess {
     private char letter;
     private String correctText;
-    public Guess(String chosenWord, char letter) {
+    public Guess(ChosenWord chosenWord, char letter) {
         this.letter = Character.toLowerCase(letter);
-        correctText = getCorrectText(chosenWord.toLowerCase().indexOf(letter) != -1);
+        correctText = getCorrectText(chosenWord.getText().toLowerCase().indexOf(letter) != -1);
     }
 
 
