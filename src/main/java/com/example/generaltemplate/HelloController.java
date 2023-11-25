@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -15,7 +16,7 @@ public class HelloController {
     @FXML
     public TextField txtInput;
     @FXML
-    public Button startPlayBtn, submitBtn;;
+    public Button startPlayBtn, submitBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, endPlayViewAnchorPane;
     @FXML
@@ -24,12 +25,16 @@ public class HelloController {
     public Label statusTxtLbl;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
+    @FXML
+    public TextArea guessedLettersTextArea;
     private JobGame currentJobGame;
     // in seconds
     private int TIMER_END_TIME = 10000;
 
     @FXML
     public void initialize() {
+        guessedLettersTextArea.setEditable(false);
+
         FakeScreen startView = new FakeScreen("startView");
         startView.addFXMLElement(startViewAnchorPane);
         fakeScreenController.add(startView);
@@ -77,11 +82,30 @@ public class HelloController {
     public void updatePlayView() {
         timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
         wordToGuessLbl.setText(currentJobGame.getHiddenChosenWord());
-        statusTxtLbl.setText(currentJobGame.getWordGuessedRight());
+        if (currentJobGame.getGuesses().getMostRecentGuess() != null) {
+            statusTxtLbl.setText(currentJobGame.getGuesses().getMostRecentGuess().getCorrectText());
+        }
         if (currentJobGame.wordFullyGuessed()) {
             submitBtn.setText("Next Word");
         } else {
             submitBtn.setText("Submit");
+        }
+        updateGuessedLettersTextArea();
+    }
+
+    private void updateGuessedLettersTextArea() {
+        if (!currentJobGame.getGuesses().getAllGuesses().isEmpty()) {
+            guessedLettersTextArea.setText("Guesses\n\n");
+            guessedLettersTextArea.appendText("Correct Guesses:\n");
+            for (Guess guess: currentJobGame.getGuesses().getCorrectGuesses()) {
+                guessedLettersTextArea.appendText(guess.getLetter() + "\n");
+            }
+            guessedLettersTextArea.appendText("\n\nIncorrect Guesses:\n");
+            for (Guess guess: currentJobGame.getGuesses().getIncorrectGuesses()) {
+                guessedLettersTextArea.appendText(guess.getLetter() + "\n");
+            }
+        } else {
+            guessedLettersTextArea.clear();
         }
     }
 

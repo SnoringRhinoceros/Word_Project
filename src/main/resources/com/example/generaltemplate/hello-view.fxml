@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -32,6 +33,7 @@
                </font>
             </Label>
             <Label fx:id="statusTxtLbl" layoutX="289.0" layoutY="209.0" text="Label" />
+            <TextArea fx:id="guessedLettersTextArea" layoutX="410.0" layoutY="18.0" prefHeight="334.0" prefWidth="177.0" text="GuessedLetters" />
          </children>
       </AnchorPane>
    </children>

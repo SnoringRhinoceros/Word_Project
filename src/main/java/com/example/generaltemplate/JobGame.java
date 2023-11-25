@@ -18,13 +18,11 @@ public class JobGame {
     private int timeElapsed;
     private String chosenWord;
     private String hiddenChosenWord;
-    private final ArrayList<Character> guessedLetters;
-    private String wordGuessedRight;
-
+    private Guesses guesses;
     public JobGame() {
         timer = new Timer();
         allTimers.add(timer);
-        guessedLetters = new ArrayList<>();
+        guesses = new Guesses();
     }
 
     public void start(HelloController.onTimerUpdateTask onTimerUpdateTask) {
@@ -33,7 +31,7 @@ public class JobGame {
     }
 
     public void makeNewChosenWord() {
-        guessedLetters.clear();
+        guesses.clear();
         chosenWord = getRandWord();
         System.out.println(chosenWord);
         setHiddenChosenWord();
@@ -43,8 +41,16 @@ public class JobGame {
         hiddenChosenWord = "";
         for (int i = 0; i < chosenWord.length(); i++) {
             char c = chosenWord.charAt(i);
-            if (guessedLetters.contains(Character.toLowerCase(c))) {
+            boolean wordFound = false;
+            for (Guess guess: guesses.getAllGuesses()) {
+                if (String.valueOf(guess.getLetter()).equals(String.valueOf(Character.toLowerCase(c)))) {
+                    wordFound = true;
+                    break;
+                }
+            }
+            if (wordFound) {
                 hiddenChosenWord += c;
+                wordFound = false;
             } else {
                 hiddenChosenWord += "_";
             }
@@ -53,14 +59,6 @@ public class JobGame {
 
     public boolean wordFullyGuessed() {
         return !hiddenChosenWord.contains("_");
-    }
-
-    private void updateWordGuessedRight(boolean wordGuessedRight) {
-        if (wordGuessedRight) {
-            this.wordGuessedRight = "Correct!";
-        } else {
-            this.wordGuessedRight = "Wrong :(";
-        }
     }
 
     public class TimerTicker extends TimerTask {
@@ -111,9 +109,7 @@ public class JobGame {
     }
 
     public void guess(char guess) {
-        guess = Character.toLowerCase(guess);
-        updateWordGuessedRight(chosenWord.toLowerCase().indexOf(guess) != -1);
-        guessedLetters.add(guess);
+        guesses.guess(chosenWord, guess);
         setHiddenChosenWord();
     }
 
@@ -129,7 +125,7 @@ public class JobGame {
         return hiddenChosenWord;
     }
 
-    public String getWordGuessedRight() {
-        return wordGuessedRight;
+    public Guesses getGuesses() {
+        return guesses;
     }
 }
