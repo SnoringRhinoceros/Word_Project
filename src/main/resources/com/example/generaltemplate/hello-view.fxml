@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -12,11 +14,6 @@
       <AnchorPane fx:id="startViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
             <Button fx:id="startPlayBtn" layoutX="280.0" layoutY="124.0" mnemonicParsing="false" onAction="#startBtnClick" text="Start" />
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="endPlayViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
-         <children>
-            <Button layoutX="264.0" layoutY="309.0" mnemonicParsing="false" onAction="#playAgainBtnClick" text="Play Again" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="playViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
@@ -36,5 +33,68 @@
             <TextArea fx:id="guessedLettersTextArea" layoutX="410.0" layoutY="18.0" prefHeight="334.0" prefWidth="177.0" text="GuessedLetters" />
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="nextDayAnchorPane" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Button layoutX="264.0" layoutY="308.0" mnemonicParsing="false" onAction="#playAgainBtnClick" text="Play Again" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="atHomeViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="studyingBtn" layoutX="31.0" layoutY="110.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="128.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/At_Home/study.png" />
+                     </image></ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="hangingOutBtn" layoutX="163.0" layoutY="110.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="128.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/At_Home/hangOut.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="gymBtn" layoutX="312.0" layoutY="110.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="128.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/At_Home/gym.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="upgradeBtn" layoutX="444.0" layoutY="110.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="128.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/At_Home/upgrade.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="bedBtn" layoutX="156.0" layoutY="263.0" mnemonicParsing="false" prefHeight="105.0" prefWidth="276.0">
+               <graphic>
+                  <ImageView fitHeight="105.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/At_Home/bed.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="playEndViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <TextArea fx:id="playEndStatsTextArea" layoutX="220.0" layoutY="84.0" prefHeight="214.0" prefWidth="203.0" text="stats" />
+            <Label layoutX="200.0" layoutY="22.0" text="Job Finished! :)">
+               <font>
+                  <Font size="37.0" />
+               </font>
+            </Label>
+            <Button layoutX="267.0" layoutY="330.0" mnemonicParsing="false" onAction="#goHomeBtnClick" text="Go Home" />
+         </children></AnchorPane>
    </children>
 </AnchorPane>

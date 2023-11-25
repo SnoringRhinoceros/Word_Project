@@ -16,24 +16,23 @@ public class HelloController {
     @FXML
     public TextField txtInput;
     @FXML
-    public Button startPlayBtn, submitBtn;
+    public Button startPlayBtn, submitBtn, studyingBtn, hangingOutBtn, gymBtn, upgradeBtn, bedBtn;
     @FXML
-    public AnchorPane startViewAnchorPane,  playViewAnchorPane, endPlayViewAnchorPane;
+    public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane, nextDayAnchorPane;
     @FXML
-    public Label timeLbl, wordToGuessLbl;
+    public Label timeLbl, wordToGuessLbl, statusTxtLbl;
     @FXML
-    public Label statusTxtLbl;
+    public TextArea guessedLettersTextArea, playEndStatsTextArea;
+    private JobGame currentJobGame;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
-    @FXML
-    public TextArea guessedLettersTextArea;
-    private JobGame currentJobGame;
     // in seconds
-    private int TIMER_END_TIME = 10000;
+    private int TIMER_END_TIME = 5;
 
     @FXML
     public void initialize() {
         guessedLettersTextArea.setEditable(false);
+        playEndStatsTextArea.setEditable(false);
 
         FakeScreen startView = new FakeScreen("startView");
         startView.addFXMLElement(startViewAnchorPane);
@@ -44,8 +43,16 @@ public class HelloController {
         fakeScreenController.add(playingView);
 
         FakeScreen playEndView = new FakeScreen("playEndView");
-        playEndView.addFXMLElement(endPlayViewAnchorPane);
+        playEndView.addFXMLElement(playEndViewAnchorPane);
         fakeScreenController.add(playEndView);
+
+        FakeScreen atHomeView = new FakeScreen("atHomeView");
+        atHomeView.addFXMLElement(atHomeViewAnchorPane);
+        fakeScreenController.add(atHomeView);
+
+        FakeScreen nextDayView = new FakeScreen("nextDayView");
+        nextDayView.addFXMLElement(nextDayAnchorPane);
+        fakeScreenController.add(nextDayView);
 
         fakeScreenController.activate("startView");
     }
@@ -142,4 +149,8 @@ public class HelloController {
         updatePlayView();
     }
 
+    @FXML
+    public void goHomeBtnClick(ActionEvent actionEvent) {
+        fakeScreenController.activate("atHomeView");
+    }
 }
