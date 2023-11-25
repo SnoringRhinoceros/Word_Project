@@ -27,9 +27,9 @@
                </font></Label>
             <TextField fx:id="txtInput" layoutX="226.0" layoutY="237.0" />
             <Button fx:id="submitBtn" layoutX="275.0" layoutY="272.0" mnemonicParsing="false" onAction="#submitBtnClick" text="Submit" />
-            <Label fx:id="wordToGuessLbl" layoutX="218.0" layoutY="173.0" text="Word To Guess">
+            <Label fx:id="wordToGuessLbl" layoutX="206.0" layoutY="166.0" text="Word To Guess">
                <font>
-                  <Font size="25.0" />
+                  <Font size="29.0" />
                </font>
             </Label>
             <Label fx:id="statusTxtLbl" layoutX="289.0" layoutY="209.0" text="Label" />

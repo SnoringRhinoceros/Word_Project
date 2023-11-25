@@ -117,6 +117,7 @@ public class HelloController {
         } else {
             currentJobGame.guess(txtInput.getText().charAt(0));
         }
+        txtInput.clear();
         updatePlayView();
     }
 
