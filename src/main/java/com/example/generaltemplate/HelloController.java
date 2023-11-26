@@ -16,23 +16,25 @@ public class HelloController {
     @FXML
     public TextField txtInput;
     @FXML
-    public Button startPlayBtn, submitBtn, studyingBtn, hangingOutBtn, gymBtn, upgradeBtn, bedBtn;
+    public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, upgradeBtn, bedBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane, nextDayAnchorPane;
     @FXML
     public Label timeLbl, wordToGuessLbl, statusTxtLbl;
     @FXML
     public TextArea guessedLettersTextArea, playEndStatsTextArea;
-    private JobGame currentJobGame;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     // in seconds
-    private int TIMER_END_TIME = 5;
+    private int TIMER_END_TIME = 20;
+    private Game game;
 
     @FXML
     public void initialize() {
         guessedLettersTextArea.setEditable(false);
         playEndStatsTextArea.setEditable(false);
+
+        game = new Game();
 
         FakeScreen startView = new FakeScreen("startView");
         startView.addFXMLElement(startViewAnchorPane);
@@ -63,43 +65,45 @@ public class HelloController {
 
     @FXML
     public void startBtnClick(ActionEvent actionEvent) {
-        currentJobGame = new JobGame();
+        game.setCurrentJobGame(new JobGame());
         fakeScreenController.activate("playView");
-        currentJobGame.start(new onTimerUpdateTask());
+        game.getCurrentJobGame().start(new onTimerUpdateTask());
         updatePlayView();
     }
 
     public class onTimerUpdateTask implements Runnable {
         @Override
         public void run() {
-            if (currentJobGame.getTimeElapsed() >= TIMER_END_TIME) {
+            if (game.getCurrentJobGame().getTimeElapsed() >= TIMER_END_TIME) {
                 fakeScreenController.activate("playEndView");
-                currentJobGame.getTimer().cancel();
+                game.getCurrentJobGame().getTimer().cancel();
                 txtInput.clear();
+                game.givePlayerEndOfDayMoney();
+                System.out.println(game.getHome().getPlayer().getMoney());
             }
             Platform.runLater(this::updateFXMLElementsOnTimerUpdate);
         }
 
         private void updateFXMLElementsOnTimerUpdate() {
-            timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
-            wordToGuessLbl.setText(currentJobGame.getChosenWord().getHiddenChosenWord());
+            timeLbl.setText("Time: " + game.getCurrentJobGame().getTimeElapsed());
+            wordToGuessLbl.setText(game.getCurrentJobGame().getChosenWord().getHiddenChosenWord());
         }
     }
 
     public void updatePlayView() {
-        timeLbl.setText("Time: " + currentJobGame.getTimeElapsed());
-        wordToGuessLbl.setText(currentJobGame.getChosenWord().getHiddenChosenWord());
-        if (currentJobGame.getGuesses().getMostRecentGuess() != null) {
-            statusTxtLbl.setText(currentJobGame.getGuesses().getMostRecentGuess().getCorrectText());
+        timeLbl.setText("Time: " + game.getCurrentJobGame().getTimeElapsed());
+        wordToGuessLbl.setText(game.getCurrentJobGame().getChosenWord().getHiddenChosenWord());
+        if (game.getCurrentJobGame().getGuesses().getMostRecentGuess() != null) {
+            statusTxtLbl.setText(game.getCurrentJobGame().getGuesses().getMostRecentGuess().getCorrectText());
         }
-        if (currentJobGame.getChosenWord().wordFullyGuessed()) {
+        if (game.getCurrentJobGame().getChosenWord().wordFullyGuessed()) {
             submitBtn.setText("Next Word");
             submitBtn.setDisable(false);
         } else {
             submitBtn.setText("Submit");
             submitBtn.setDisable(false);
             if (!txtInput.getText().isEmpty() && txtInput.getText().length() == 1) {
-                for (Guess guess: currentJobGame.getGuesses().getAllGuesses()) {
+                for (Guess guess: game.getCurrentJobGame().getGuesses().getAllGuesses()) {
                     if (guess.getLetter() == txtInput.getText().charAt(0)) {
                         submitBtn.setDisable(true);
                         break;
@@ -113,29 +117,28 @@ public class HelloController {
     }
 
     private void updateGuessedLettersTextArea() {
-        guessedLettersTextArea.setText("# Questions Correct: " + currentJobGame.getWordsCorrect()+"\n\n");
-        if (!currentJobGame.getGuesses().getAllGuesses().isEmpty()) {
-            guessedLettersTextArea.appendText("Correct Guesses:\n");
-            for (Guess guess: currentJobGame.getGuesses().getCorrectGuesses()) {
+        guessedLettersTextArea.clear();
+        guessedLettersTextArea.setText("Money Earned: " + game.getCurrentJobGame().getWordsCorrect()*game.getHome().getPlayer().getAddMoneyAmount());
+        guessedLettersTextArea.appendText("\nMoney per correct word: " + game.getHome().getPlayer().getAddMoneyAmount());
+        if (!game.getCurrentJobGame().getGuesses().getAllGuesses().isEmpty()) {
+            guessedLettersTextArea.appendText("\n\nCorrect Guesses:\n");
+            for (Guess guess: game.getCurrentJobGame().getGuesses().getCorrectGuesses()) {
                 guessedLettersTextArea.appendText(guess.getLetter() + "\n");
             }
             guessedLettersTextArea.appendText("\n\nIncorrect Guesses:\n");
-            for (Guess guess: currentJobGame.getGuesses().getIncorrectGuesses()) {
+            for (Guess guess: game.getCurrentJobGame().getGuesses().getIncorrectGuesses()) {
                 guessedLettersTextArea.appendText(guess.getLetter() + "\n");
             }
-        } else {
-            guessedLettersTextArea.clear();
-            guessedLettersTextArea.setText("# Questions Correct: " + currentJobGame.getWordsCorrect()+"\n\n");
         }
     }
 
     @FXML
     public void submitBtnClick(ActionEvent actionEvent) {
-        if (currentJobGame.getChosenWord().wordFullyGuessed()) {
-            currentJobGame.makeNewChosenWord();
+        if (game.getCurrentJobGame().getChosenWord().wordFullyGuessed()) {
+            game.getCurrentJobGame().makeNewChosenWord();
             // handle logic for word is guessed
         } else {
-            currentJobGame.guess(txtInput.getText().charAt(0));
+            game.getCurrentJobGame().guess(txtInput.getText().charAt(0));
         }
         txtInput.clear();
         updatePlayView();
@@ -143,14 +146,20 @@ public class HelloController {
 
     @FXML
     public void playAgainBtnClick(ActionEvent actionEvent) {
-        currentJobGame = new JobGame();
+        game.setCurrentJobGame(new JobGame());
         fakeScreenController.activate("playView");
-        currentJobGame.start(new onTimerUpdateTask());
+        game.getCurrentJobGame().start(new onTimerUpdateTask());
         updatePlayView();
     }
 
     @FXML
     public void goHomeBtnClick(ActionEvent actionEvent) {
         fakeScreenController.activate("atHomeView");
+    }
+
+    @FXML
+    public void atHomeActionBtnClick(ActionEvent actionEvent) {
+        String btnId = ((Button) actionEvent.getTarget()).getId();
+        game.getHome().givePlayerAction(btnId);
     }
 }
