@@ -16,17 +16,19 @@ public class HelloController {
     @FXML
     public TextField txtInput;
     @FXML
-    public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, upgradeBtn, bedBtn;
+    public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, upgradeBtn, bedBtn, goBackBtn;
     @FXML
-    public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane, nextDayAnchorPane;
+    public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
+            nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, upgradeViewAnchorPane,
+            bedViewAnchorPane, playerHomeStatsAnchorPane;
     @FXML
-    public Label timeLbl, wordToGuessLbl, statusTxtLbl;
+    public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl;
     @FXML
     public TextArea guessedLettersTextArea, playEndStatsTextArea;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     // in seconds
-    private int TIMER_END_TIME = 20;
+    private int TIMER_END_TIME = 1;
     private Game game;
 
     @FXML
@@ -48,13 +50,42 @@ public class HelloController {
         playEndView.addFXMLElement(playEndViewAnchorPane);
         fakeScreenController.add(playEndView);
 
-        FakeScreen atHomeView = new FakeScreen("atHomeView");
-        atHomeView.addFXMLElement(atHomeViewAnchorPane);
-        fakeScreenController.add(atHomeView);
-
         FakeScreen nextDayView = new FakeScreen("nextDayView");
         nextDayView.addFXMLElement(nextDayAnchorPane);
         fakeScreenController.add(nextDayView);
+
+
+        // home stuff ↓
+
+        FakeScreen atHomeView = new FakeScreen("atHomeView");
+        atHomeView.addFXMLElement(atHomeViewAnchorPane);
+        atHomeView.addFXMLElement(playerHomeStatsAnchorPane);
+        fakeScreenController.add(atHomeView);
+
+        FakeScreen studyView = new FakeScreen("studyView");
+        studyView.addFXMLElement(studyViewAnchorPane);
+        studyView.addFXMLElement(playerHomeStatsAnchorPane);
+        fakeScreenController.add(studyView);
+
+        FakeScreen hangOutView = new FakeScreen("hangOutView");
+        hangOutView.addFXMLElement(hangOutViewAnchorPane);
+        hangOutView.addFXMLElement(playerHomeStatsAnchorPane);
+        fakeScreenController.add(hangOutView);
+
+        FakeScreen gymView = new FakeScreen("gymView");
+        gymView.addFXMLElement(gymViewAnchorPane);
+        gymView.addFXMLElement(playerHomeStatsAnchorPane);
+        fakeScreenController.add(gymView);
+
+        FakeScreen upgradeView = new FakeScreen("upgradeView");
+        upgradeView.addFXMLElement(upgradeViewAnchorPane);
+        upgradeView.addFXMLElement(playerHomeStatsAnchorPane);
+        fakeScreenController.add(upgradeView);
+
+        FakeScreen bedView = new FakeScreen("bedView");
+        bedView.addFXMLElement(bedViewAnchorPane);
+        bedView.addFXMLElement(playerHomeStatsAnchorPane);
+        fakeScreenController.add(bedView);
 
         fakeScreenController.activate("startView");
     }
@@ -79,7 +110,6 @@ public class HelloController {
                 game.getCurrentJobGame().getTimer().cancel();
                 txtInput.clear();
                 game.givePlayerEndOfDayMoney();
-                System.out.println(game.getHome().getPlayer().getMoney());
             }
             Platform.runLater(this::updateFXMLElementsOnTimerUpdate);
         }
@@ -155,11 +185,24 @@ public class HelloController {
     @FXML
     public void goHomeBtnClick(ActionEvent actionEvent) {
         fakeScreenController.activate("atHomeView");
+        homeInit();
+    }
+
+    private void homeInit() {
+        moneyLbl.setText("Money: " + game.getHome().getPlayer().getMoney());
     }
 
     @FXML
     public void atHomeActionBtnClick(ActionEvent actionEvent) {
         String btnId = ((Button) actionEvent.getTarget()).getId();
-        game.getHome().givePlayerAction(btnId);
+        String actionId = btnId.substring(0, btnId.length()-3);
+        fakeScreenController.activate( actionId + "View");
+        game.getHome().givePlayerAction(actionId);
+    }
+
+    @FXML
+    public void goBackBtnClick(ActionEvent actionEvent) {
+        fakeScreenController.activate("atHomeView");
+        homeInit();
     }
 }

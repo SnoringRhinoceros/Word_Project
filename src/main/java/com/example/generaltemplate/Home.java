@@ -7,8 +7,8 @@ public class Home {
         player = new Player();
     }
 
-    public void givePlayerAction(String idOfBtn) {
-        player.doHomeAction(idOfBtn.substring(0, idOfBtn.length()-3));
+    public void givePlayerAction(String actionId) {
+        player.doHomeAction(actionId);
     }
 
     public Player getPlayer() {

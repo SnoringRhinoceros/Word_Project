@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.generaltemplate.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.generaltemplate.HelloController">
    <children>
       <AnchorPane fx:id="startViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -94,6 +94,17 @@
                   </ImageView>
                </graphic>
             </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="studyViewAnchorPane" prefHeight="400.0" prefWidth="600.0" />
+      <AnchorPane fx:id="hangOutViewAnchorPane" prefHeight="400.0" prefWidth="600.0" />
+      <AnchorPane fx:id="gymViewAnchorPane" prefHeight="400.0" prefWidth="600.0" />
+      <AnchorPane fx:id="upgradeViewAnchorPane" prefHeight="200.0" prefWidth="200.0" />
+      <AnchorPane fx:id="bedViewAnchorPane" prefHeight="400.0" prefWidth="600.0" />
+      <AnchorPane fx:id="playerHomeStatsAnchorPane" prefHeight="106.0" prefWidth="582.0">
+         <children>
+            <Label fx:id="moneyLbl" layoutX="20.0" layoutY="30.0" text="Money:" />
+            <Button fx:id="goBackBtn" layoutX="10.0" layoutY="67.0" mnemonicParsing="false" onAction="#goBackBtnClick" text="Go Back" />
          </children>
       </AnchorPane>
    </children>
