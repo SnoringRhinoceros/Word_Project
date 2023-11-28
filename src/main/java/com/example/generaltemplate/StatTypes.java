@@ -1,9 +1,18 @@
 package com.example.generaltemplate;
 
 public enum StatTypes {
-    STAMINA, MAX_STAMINA, MONEY;
+    STAMINA(15), MAX_STAMINA(15), MONEY(0);
+
+    private final int startingVal;
+    StatTypes(int startingVal) {
+        this.startingVal = startingVal;
+    }
 
     public static StatTypes[] getAll() {
         return values();
+    }
+
+    public int getStartingVal() {
+        return startingVal;
     }
 }

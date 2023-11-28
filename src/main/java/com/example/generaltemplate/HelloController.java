@@ -16,7 +16,7 @@ public class HelloController {
     @FXML
     public TextField txtInput;
     @FXML
-    public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, upgradeBtn, bedBtn, goBackBtn;
+    public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, upgradeBtn, bedBtn, goBackBtn, confirmBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
             nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, upgradeViewAnchorPane,
@@ -65,26 +65,36 @@ public class HelloController {
         FakeScreen studyView = new FakeScreen("studyView");
         studyView.addFXMLElement(studyViewAnchorPane);
         studyView.addFXMLElement(playerHomeStatsAnchorPane);
+        studyView.addFXMLElement(goBackBtn);
+        studyView.addFXMLElement(confirmBtn);
         fakeScreenController.add(studyView);
 
         FakeScreen hangOutView = new FakeScreen("hangOutView");
         hangOutView.addFXMLElement(hangOutViewAnchorPane);
         hangOutView.addFXMLElement(playerHomeStatsAnchorPane);
+        hangOutView.addFXMLElement(goBackBtn);
+        hangOutView.addFXMLElement(confirmBtn);
         fakeScreenController.add(hangOutView);
 
         FakeScreen gymView = new FakeScreen("gymView");
         gymView.addFXMLElement(gymViewAnchorPane);
         gymView.addFXMLElement(playerHomeStatsAnchorPane);
+        gymView.addFXMLElement(goBackBtn);
+        gymView.addFXMLElement(confirmBtn);
         fakeScreenController.add(gymView);
 
         FakeScreen upgradeView = new FakeScreen("upgradeView");
         upgradeView.addFXMLElement(upgradeViewAnchorPane);
         upgradeView.addFXMLElement(playerHomeStatsAnchorPane);
+        upgradeView.addFXMLElement(goBackBtn);
+        upgradeView.addFXMLElement(confirmBtn);
         fakeScreenController.add(upgradeView);
 
         FakeScreen bedView = new FakeScreen("bedView");
         bedView.addFXMLElement(bedViewAnchorPane);
         bedView.addFXMLElement(playerHomeStatsAnchorPane);
+        bedView.addFXMLElement(goBackBtn);
+        bedView.addFXMLElement(confirmBtn);
         fakeScreenController.add(bedView);
 
         fakeScreenController.activate("startView");
@@ -192,17 +202,27 @@ public class HelloController {
         moneyLbl.setText("Money: " + game.getHome().getPlayer().getMoney());
     }
 
+    private String getActionBtnId(ActionEvent actionEvent) {
+        String btnId = ((Button) actionEvent.getTarget()).getId();
+        return btnId.substring(0, btnId.length()-3);
+    }
+
     @FXML
     public void atHomeActionBtnClick(ActionEvent actionEvent) {
-        String btnId = ((Button) actionEvent.getTarget()).getId();
-        String actionId = btnId.substring(0, btnId.length()-3);
+        String actionId = getActionBtnId(actionEvent);
         fakeScreenController.activate( actionId + "View");
-        game.getHome().givePlayerAction(actionId);
+        game.getHome().givePlayerAction(actionId); // fix
     }
 
     @FXML
     public void goBackBtnClick(ActionEvent actionEvent) {
         fakeScreenController.activate("atHomeView");
         homeInit();
+    }
+
+    @FXML
+    public void confirmBtnClick(ActionEvent actionEvent) {
+        String actionId = getActionBtnId(actionEvent);
+        game.getHome().givePlayerAction(actionId);
     }
 }

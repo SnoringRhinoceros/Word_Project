@@ -1,24 +1,22 @@
 package com.example.generaltemplate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class Player {
     private int money;
-    private int stamina;
-    private int maxStamina;
+    private final PlayerStats stats;
     private int addMoneyAmount;
     private final List<HomeAction> allHomeActions;
 
     public Player() {
+        stats = new PlayerStats();
         addMoneyAmount = 1;
         allHomeActions = Arrays.asList(new Study(), new HangOut(), new Gym(), new Upgrade(), new Bed());
     }
 
     private abstract class HomeAction {
-        private String name;
+        private final String name;
         private int upgradePoints = 0;
 
         public HomeAction(String name) {
@@ -123,8 +121,8 @@ public class Player {
         return money;
     }
 
-    public int getStamina() {
-        return stamina;
+    public PlayerStats getStats() {
+        return stats;
     }
 
     public int getAddMoneyAmount() {

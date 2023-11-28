@@ -19,7 +19,7 @@ public class Stats {
     public void set(StatTypes statTypeToFind, Integer num) {
         for (StatTypes statType: StatTypes.getAll()) {
             if (statType.equals(statTypeToFind)) {
-                // set int to num
+                all.put(statType, num);
             }
         }
     }
