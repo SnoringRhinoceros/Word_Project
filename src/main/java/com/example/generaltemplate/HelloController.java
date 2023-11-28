@@ -28,7 +28,7 @@ public class HelloController {
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     // in seconds
-    private int TIMER_END_TIME = 1;
+    public final static int BASE_END_TIME = 1;
     private Game game;
 
     @FXML
@@ -106,7 +106,7 @@ public class HelloController {
 
     @FXML
     public void startBtnClick(ActionEvent actionEvent) {
-        game.setCurrentJobGame(new JobGame());
+        game.setCurrentJobGame(new JobGame(game.getPlayer()));
         fakeScreenController.activate("playView");
         game.getCurrentJobGame().start(new onTimerUpdateTask());
         updatePlayView();
@@ -115,7 +115,7 @@ public class HelloController {
     public class onTimerUpdateTask implements Runnable {
         @Override
         public void run() {
-            if (game.getCurrentJobGame().getTimeElapsed() >= TIMER_END_TIME) {
+            if (game.getCurrentJobGame().getTimeElapsed() >= BASE_END_TIME) {
                 fakeScreenController.activate("playEndView");
                 game.getCurrentJobGame().getTimer().cancel();
                 txtInput.clear();
@@ -158,8 +158,8 @@ public class HelloController {
 
     private void updateGuessedLettersTextArea() {
         guessedLettersTextArea.clear();
-        guessedLettersTextArea.setText("Money Earned: " + game.getCurrentJobGame().getWordsCorrect()*game.getHome().getPlayer().getAddMoneyAmount());
-        guessedLettersTextArea.appendText("\nMoney per correct word: " + game.getHome().getPlayer().getAddMoneyAmount());
+        guessedLettersTextArea.setText("Money Earned: " + game.getCurrentJobGame().getWordsCorrect()*game.getPlayer().getAddMoneyAmount());
+        guessedLettersTextArea.appendText("\nMoney per correct word: " + game.getPlayer().getAddMoneyAmount());
         if (!game.getCurrentJobGame().getGuesses().getAllGuesses().isEmpty()) {
             guessedLettersTextArea.appendText("\n\nCorrect Guesses:\n");
             for (Guess guess: game.getCurrentJobGame().getGuesses().getCorrectGuesses()) {
@@ -186,10 +186,7 @@ public class HelloController {
 
     @FXML
     public void playAgainBtnClick(ActionEvent actionEvent) {
-        game.setCurrentJobGame(new JobGame());
-        fakeScreenController.activate("playView");
-        game.getCurrentJobGame().start(new onTimerUpdateTask());
-        updatePlayView();
+        startBtnClick(actionEvent);
     }
 
     @FXML
@@ -199,7 +196,7 @@ public class HelloController {
     }
 
     private void homeInit() {
-        moneyLbl.setText("Money: " + game.getHome().getPlayer().getMoney());
+        moneyLbl.setText("Money: " + game.getPlayer().getMoney());
     }
 
     private String getActionBtnId(ActionEvent actionEvent) {
@@ -211,7 +208,6 @@ public class HelloController {
     public void atHomeActionBtnClick(ActionEvent actionEvent) {
         String actionId = getActionBtnId(actionEvent);
         fakeScreenController.activate( actionId + "View");
-        game.getHome().givePlayerAction(actionId); // fix
     }
 
     @FXML
@@ -222,7 +218,8 @@ public class HelloController {
 
     @FXML
     public void confirmBtnClick(ActionEvent actionEvent) {
-        String actionId = getActionBtnId(actionEvent);
-        game.getHome().givePlayerAction(actionId);
+        String action = fakeScreenController.getCurrentScreen().getName();
+        action = action.substring(0, action.indexOf("View"));
+        game.getPlayer().doHomeAction(action);
     }
 }

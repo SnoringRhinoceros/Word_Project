@@ -1,29 +1,30 @@
 package com.example.generaltemplate;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.generaltemplate.HelloController.BASE_END_TIME;
 import static com.example.generaltemplate.HelloController.allTimers;
 
 public class JobGame {
     private final Timer timer;
     private int timeElapsed;
-    private Guesses guesses;
+    private final Guesses guesses;
     private ChosenWord chosenWord;
     private int wordsCorrect;
+    private final Player player;
+    private int endTime;
 
-    public JobGame() {
+    public JobGame(Player player) {
+        this.player = player;
         timer = new Timer();
         allTimers.add(timer);
         guesses = new Guesses();
+        endTime = BASE_END_TIME;
     }
 
     public void start(HelloController.onTimerUpdateTask onTimerUpdateTask) {
@@ -83,5 +84,9 @@ public class JobGame {
 
     public int getWordsCorrect() {
         return wordsCorrect;
+    }
+
+    public int getEndTime() {
+        return endTime;
     }
 }

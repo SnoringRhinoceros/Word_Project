@@ -2,10 +2,10 @@ package com.example.generaltemplate;
 
 public class Game {
     private JobGame currentJobGame;
-    private final Home home;
+    private final Player player;
 
     public Game() {
-        home = new Home();
+        player = new Player();
     }
 
     public JobGame getCurrentJobGame() {
@@ -16,13 +16,13 @@ public class Game {
         this.currentJobGame = currentJobGame;
     }
 
-    public Home getHome() {
-        return home;
-    }
-
     public void givePlayerEndOfDayMoney() {
         for (int i = 0; i < currentJobGame.getWordsCorrect(); i++) {
-            getHome().getPlayer().addMoney();
+            player.addMoney();
         }
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

@@ -45,6 +45,7 @@ public class Player {
                 return;
             }
         }
+        throw new RuntimeException("Can't find action");
     }
 
     private final class Study extends HomeAction {
@@ -55,7 +56,8 @@ public class Player {
 
         @Override
         public void run() {
-
+            addUpgradePoints(1);
+            System.out.println(getUpgradePoints());
         }
     }
 
@@ -67,7 +69,8 @@ public class Player {
 
         @Override
         public void run() {
-
+            addUpgradePoints(1);
+            System.out.println(getUpgradePoints());
         }
     }
 
@@ -79,7 +82,8 @@ public class Player {
 
         @Override
         public void run() {
-
+            addUpgradePoints(1);
+            System.out.println(getUpgradePoints());
         }
     }
 
@@ -91,7 +95,8 @@ public class Player {
 
         @Override
         public void run() {
-
+            addUpgradePoints(1);
+            System.out.println(getUpgradePoints());
         }
     }
 
@@ -103,7 +108,8 @@ public class Player {
 
         @Override
         public void run() {
-
+            addUpgradePoints(1);
+            System.out.println(getUpgradePoints());
         }
     }
 
