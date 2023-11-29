@@ -22,13 +22,13 @@ public class HelloController {
             nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, upgradeViewAnchorPane,
             bedViewAnchorPane, playerHomeStatsAnchorPane;
     @FXML
-    public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl;
+    public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl;
     @FXML
     public TextArea guessedLettersTextArea, playEndStatsTextArea;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     // in seconds
-    public final static int BASE_END_TIME = 20;
+    public final static int BASE_END_TIME = 1;
     private Game game;
 
     @FXML
@@ -195,7 +195,12 @@ public class HelloController {
     }
 
     private void homeInit() {
-        moneyLbl.setText("Money: " + game.getPlayer().getMoney());
+        updatePlayerStatsAnchorPane();
+    }
+
+    private void updatePlayerStatsAnchorPane() {
+        moneyLbl.setText("Money: " + game.getPlayer().getStats().get(StatTypes.MONEY));
+        staminaLbl.setText("Stamina: " + game.getPlayer().getStats().get(StatTypes.STAMINA) + "/" + game.getPlayer().getStats().get(StatTypes.MAX_STAMINA));
     }
 
     private String getActionBtnId(ActionEvent actionEvent) {
@@ -220,5 +225,10 @@ public class HelloController {
         String action = fakeScreenController.getCurrentScreen().getName();
         action = action.substring(0, action.indexOf("View"));
         game.getPlayer().doHomeAction(action);
+        updatePlayerStatsAnchorPane();
+    }
+
+    private void updateHomeActionViews() {
+        if (game.getPlayer().getStats().canSubtract())
     }
 }

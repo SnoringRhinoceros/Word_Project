@@ -4,23 +4,30 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Player {
-    private int money;
-    private final PlayerStats stats;
+    private final Stats stats;
     private int addMoneyAmount;
     private final List<HomeAction> allHomeActions;
 
     public Player() {
-        stats = new PlayerStats();
+        stats = new Stats();
         addMoneyAmount = 1;
-        allHomeActions = Arrays.asList(new Study(), new HangOut(), new Gym(), new Upgrade(), new Bed());
+        allHomeActions = Arrays.asList(
+                new Study(new Stats(5, 0, 0)),
+                new HangOut(new Stats(5, 0, 0)),
+                new Gym(new Stats(5, 0, 0)),
+                new Upgrade(new Stats(1, 0, 2)),
+                new Bed(new Stats())
+        );
     }
 
     private abstract class HomeAction {
         private final String name;
-        private int upgradePoints = 0;
+        private int upgradePoints;
+        private Stats statCost;
 
-        public HomeAction(String name) {
+        public HomeAction(String name, Stats statCost) {
             this.name = name;
+            this.statCost = statCost;
         }
 
         public abstract void run();
@@ -36,11 +43,21 @@ public class Player {
         public String getName() {
             return name;
         }
+
+        public Stats getStatCost() {
+            return statCost;
+        }
+
+        public void setStatCost(Stats statCost) {
+            this.statCost = statCost;
+        }
     }
 
     public void doHomeAction(String action) {
         for (HomeAction homeAction: allHomeActions) {
             if (homeAction.getName().equals(action)) {
+                stats.subtract(homeAction.getStatCost());
+                System.out.println(stats.getAll());
                 homeAction.run();
                 return;
             }
@@ -50,8 +67,8 @@ public class Player {
 
     private final class Study extends HomeAction {
 
-        public Study() {
-            super("study");
+        public Study(Stats stats) {
+            super("study", stats);
         }
 
         @Override
@@ -63,8 +80,8 @@ public class Player {
 
     private final class HangOut extends HomeAction {
 
-        public HangOut() {
-            super("hangOut");
+        public HangOut(Stats stats) {
+            super("hangOut", stats);
         }
 
         @Override
@@ -76,8 +93,8 @@ public class Player {
 
     private final class Gym extends HomeAction {
 
-        public Gym() {
-            super("gym");
+        public Gym(Stats stats) {
+            super("gym", stats);
         }
 
         @Override
@@ -89,8 +106,8 @@ public class Player {
 
     private final class Upgrade extends HomeAction {
 
-        public Upgrade() {
-            super("upgrade");
+        public Upgrade(Stats stats) {
+            super("upgrade", stats);
         }
 
         @Override
@@ -102,8 +119,8 @@ public class Player {
 
     private final class Bed extends HomeAction {
 
-        public Bed() {
-            super("bed");
+        public Bed(Stats stats) {
+            super("bed", stats);
         }
 
         @Override
@@ -116,18 +133,14 @@ public class Player {
 
 
     public void addMoney() {
-        money += addMoneyAmount;
+        getStats().set(StatTypes.MONEY, getStats().get(StatTypes.MONEY) + addMoneyAmount);
     }
 
     public void addToAddMoneyAmount(int amt) {
         addMoneyAmount += amt;
     }
 
-    public int getMoney() {
-        return money;
-    }
-
-    public PlayerStats getStats() {
+    public Stats getStats() {
         return stats;
     }
 

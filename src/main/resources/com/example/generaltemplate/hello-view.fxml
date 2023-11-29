@@ -104,6 +104,7 @@
       <AnchorPane fx:id="playerHomeStatsAnchorPane" prefHeight="106.0" prefWidth="582.0">
          <children>
             <Label fx:id="moneyLbl" layoutX="20.0" layoutY="30.0" text="Money:" />
+            <Label fx:id="staminaLbl" layoutX="135.0" layoutY="30.0" text="Stamina:" />
          </children>
       </AnchorPane>
       <Button fx:id="goBackBtn" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#goBackBtnClick" text="Go Back" />
