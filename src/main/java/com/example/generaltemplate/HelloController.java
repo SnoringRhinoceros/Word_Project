@@ -28,7 +28,7 @@ public class HelloController {
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     // in seconds
-    public final static int BASE_END_TIME = 1;
+    public final static int BASE_END_TIME = 20;
     private Game game;
 
     @FXML
@@ -176,7 +176,6 @@ public class HelloController {
     public void submitBtnClick(ActionEvent actionEvent) {
         if (game.getCurrentJobGame().getChosenWord().wordFullyGuessed()) {
             game.getCurrentJobGame().makeNewChosenWord();
-            // handle logic for word is guessed
         } else {
             game.getCurrentJobGame().guess(txtInput.getText().charAt(0));
         }

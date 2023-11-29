@@ -63,6 +63,7 @@ public class JobGame {
         chosenWord.setHiddenChosenWord(guesses);
         if (chosenWord.wordFullyGuessed()) {
             wordsCorrect++;
+            player.addMoney();
         }
     }
 
