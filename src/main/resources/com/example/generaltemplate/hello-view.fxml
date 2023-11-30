@@ -107,6 +107,11 @@
             <Label fx:id="staminaLbl" layoutX="135.0" layoutY="30.0" text="Stamina:" />
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="startNextDayViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Button layoutX="272.0" layoutY="246.0" mnemonicParsing="false" onAction="#startNextDayBtnClick" text="Start" />
+         </children>
+      </AnchorPane>
       <Button fx:id="goBackBtn" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#goBackBtnClick" text="Go Back" />
       <Button fx:id="confirmBtn" layoutX="270.0" layoutY="350.0" mnemonicParsing="false" onAction="#confirmBtnClick" text="Confirm" />
    </children>

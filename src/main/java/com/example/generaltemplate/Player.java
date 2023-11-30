@@ -16,7 +16,7 @@ public class Player {
                 new HangOut(new Stats(5, 0, 0)),
                 new Gym(new Stats(5, 0, 0)),
                 new Upgrade(new Stats(1, 0, 2)),
-                new Bed(new Stats())
+                new Bed(new Stats(0, 0, 0))
         );
     }
 
@@ -48,6 +48,7 @@ public class Player {
     private abstract class HomeAction {
         private final String name;
         private int upgradePoints;
+        private int usePoints;
         private Stats statCost;
 
         public HomeAction(String name, Stats statCost) {
@@ -69,6 +70,8 @@ public class Player {
             return name;
         }
 
+        public int getUsePoints() {return usePoints;}
+
         public Stats getStatCost() {
             return statCost;
         }
@@ -82,7 +85,6 @@ public class Player {
         for (HomeAction homeAction: allHomeActions) {
             if (homeAction.getName().equals(action)) {
                 stats.subtract(homeAction.getStatCost());
-                System.out.println(stats.getAll());
                 homeAction.run();
                 return;
             }
@@ -92,66 +94,61 @@ public class Player {
 
     private final class Study extends HomeAction {
 
-        public Study(Stats stats) {
-            super("study", stats);
+        public Study(Stats statCost) {
+            super("study", statCost);
         }
 
         @Override
         public void run() {
             addUpgradePoints(1);
-            System.out.println(getUpgradePoints());
         }
     }
 
     private final class HangOut extends HomeAction {
 
-        public HangOut(Stats stats) {
-            super("hangOut", stats);
+        public HangOut(Stats statCost) {
+            super("hangOut", statCost);
         }
 
         @Override
         public void run() {
             addUpgradePoints(1);
-            System.out.println(getUpgradePoints());
         }
     }
 
     private final class Gym extends HomeAction {
 
-        public Gym(Stats stats) {
-            super("gym", stats);
+        public Gym(Stats statCost) {
+            super("gym", statCost);
         }
 
         @Override
         public void run() {
             addUpgradePoints(1);
-            System.out.println(getUpgradePoints());
         }
     }
 
     private final class Upgrade extends HomeAction {
 
-        public Upgrade(Stats stats) {
-            super("upgrade", stats);
+        public Upgrade(Stats statCost) {
+            super("upgrade", statCost);
         }
 
         @Override
         public void run() {
             addUpgradePoints(1);
-            System.out.println(getUpgradePoints());
         }
     }
 
     private final class Bed extends HomeAction {
 
-        public Bed(Stats stats) {
-            super("bed", stats);
+        public Bed(Stats statCost) {
+            super("bed", statCost);
         }
 
         @Override
         public void run() {
-            addUpgradePoints(1);
-            System.out.println(getUpgradePoints());
+            stats.set(StatTypes.STAMINA, stats.get(StatTypes.MAX_STAMINA));
         }
     }
 }

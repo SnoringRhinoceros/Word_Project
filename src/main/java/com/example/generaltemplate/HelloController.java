@@ -16,19 +16,19 @@ public class HelloController {
     @FXML
     public TextField txtInput;
     @FXML
-    public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, upgradeBtn, bedBtn, goBackBtn, confirmBtn;
+    public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, upgradeBtn, bedBtn, goBackBtn,
+            confirmBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
             nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, upgradeViewAnchorPane,
-            bedViewAnchorPane, playerHomeStatsAnchorPane;
+            bedViewAnchorPane, playerHomeStatsAnchorPane, startNextDayViewAnchorPane;
     @FXML
     public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl;
     @FXML
     public TextArea guessedLettersTextArea, playEndStatsTextArea;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
-    // in seconds
-    public final static int BASE_END_TIME = 1;
+    public final static int BASE_END_TIME = 10;     // in seconds
     private Game game;
 
     @FXML
@@ -54,9 +54,12 @@ public class HelloController {
         nextDayView.addFXMLElement(nextDayAnchorPane);
         fakeScreenController.add(nextDayView);
 
+        FakeScreen startNextDayView = new FakeScreen("startNextDayView");
+        startNextDayView.addFXMLElement(startNextDayViewAnchorPane);
+        fakeScreenController.add(startNextDayView);
+
 
         // home stuff ↓
-
         FakeScreen atHomeView = new FakeScreen("atHomeView");
         atHomeView.addFXMLElement(atHomeViewAnchorPane);
         atHomeView.addFXMLElement(playerHomeStatsAnchorPane);
@@ -106,6 +109,10 @@ public class HelloController {
 
     @FXML
     public void startBtnClick(ActionEvent actionEvent) {
+        jobGameInit();
+    }
+
+    private void jobGameInit() {
         game.setCurrentJobGame(new JobGame(game.getPlayer()));
         fakeScreenController.activate("playView");
         game.getCurrentJobGame().start(new onTimerUpdateTask());
@@ -226,8 +233,12 @@ public class HelloController {
         String action = fakeScreenController.getCurrentScreen().getName();
         action = action.substring(0, action.indexOf("View"));
         game.getPlayer().doHomeAction(action);
-        updatePlayerStatsAnchorPane();
-        updateHomeActionViews();
+        if (action.equals("bed")) {
+            fakeScreenController.activate("startNextDayView");
+        } else {
+            updatePlayerStatsAnchorPane();
+            updateHomeActionViews();
+        }
     }
 
     private void updateHomeActionViews() {
@@ -237,5 +248,10 @@ public class HelloController {
         if (!game.getPlayer().getStats().canSubtract(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
             confirmBtn.setDisable(true);
         }
+    }
+
+    @FXML
+    public void startNextDayBtnClick(ActionEvent actionEvent) {
+        jobGameInit();
     }
 }
