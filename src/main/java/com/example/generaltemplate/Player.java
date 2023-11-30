@@ -45,6 +45,17 @@ public class Player {
         throw new RuntimeException("Can't' find that HomeAction");
     }
 
+    public void doHomeAction(String action) {
+        for (HomeAction homeAction: allHomeActions) {
+            if (homeAction.getName().equals(action)) {
+                stats.subtract(homeAction.getStatCost());
+                homeAction.run();
+                return;
+            }
+        }
+        throw new RuntimeException("Can't find action");
+    }
+
     private abstract class HomeAction {
         private final String name;
         private int upgradePoints;
@@ -71,6 +82,7 @@ public class Player {
         }
 
         public int getUsePoints() {return usePoints;}
+        public void incrementUsePoints() {usePoints++;}
 
         public Stats getStatCost() {
             return statCost;
@@ -81,17 +93,6 @@ public class Player {
         }
     }
 
-    public void doHomeAction(String action) {
-        for (HomeAction homeAction: allHomeActions) {
-            if (homeAction.getName().equals(action)) {
-                stats.subtract(homeAction.getStatCost());
-                homeAction.run();
-                return;
-            }
-        }
-        throw new RuntimeException("Can't find action");
-    }
-
     private final class Study extends HomeAction {
 
         public Study(Stats statCost) {
@@ -100,7 +101,7 @@ public class Player {
 
         @Override
         public void run() {
-            addUpgradePoints(1);
+            incrementUsePoints();
         }
     }
 
@@ -112,7 +113,7 @@ public class Player {
 
         @Override
         public void run() {
-            addUpgradePoints(1);
+            incrementUsePoints();
         }
     }
 
@@ -124,7 +125,7 @@ public class Player {
 
         @Override
         public void run() {
-            addUpgradePoints(1);
+            incrementUsePoints();
         }
     }
 

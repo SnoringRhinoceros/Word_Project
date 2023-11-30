@@ -28,7 +28,7 @@ public class HelloController {
     public TextArea guessedLettersTextArea, playEndStatsTextArea;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
-    public final static int BASE_END_TIME = 10;     // in seconds
+    public final static int BASE_END_TIME = 1;     // in seconds
     private Game game;
 
     @FXML
