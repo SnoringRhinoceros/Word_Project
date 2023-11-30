@@ -20,6 +20,31 @@ public class Player {
         );
     }
 
+    public void addMoney() {
+        getStats().set(StatTypes.MONEY, getStats().get(StatTypes.MONEY) + addMoneyAmount);
+    }
+
+    public void addToAddMoneyAmount(int amt) {
+        addMoneyAmount += amt;
+    }
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    public int getAddMoneyAmount() {
+        return addMoneyAmount;
+    }
+
+    public Stats getHomeActionStatCost(String homeActionName) {
+        for (HomeAction homeAction: allHomeActions) {
+            if (homeAction.getName().equals(homeActionName)) {
+                return homeAction.getStatCost();
+            }
+        }
+        throw new RuntimeException("Can't' find that HomeAction");
+    }
+
     private abstract class HomeAction {
         private final String name;
         private int upgradePoints;
@@ -128,23 +153,5 @@ public class Player {
             addUpgradePoints(1);
             System.out.println(getUpgradePoints());
         }
-    }
-
-
-
-    public void addMoney() {
-        getStats().set(StatTypes.MONEY, getStats().get(StatTypes.MONEY) + addMoneyAmount);
-    }
-
-    public void addToAddMoneyAmount(int amt) {
-        addMoneyAmount += amt;
-    }
-
-    public Stats getStats() {
-        return stats;
-    }
-
-    public int getAddMoneyAmount() {
-        return addMoneyAmount;
     }
 }

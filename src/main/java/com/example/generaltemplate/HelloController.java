@@ -212,6 +212,7 @@ public class HelloController {
     public void atHomeActionBtnClick(ActionEvent actionEvent) {
         String actionId = getActionBtnId(actionEvent);
         fakeScreenController.activate( actionId + "View");
+        updateHomeActionViews();
     }
 
     @FXML
@@ -226,9 +227,15 @@ public class HelloController {
         action = action.substring(0, action.indexOf("View"));
         game.getPlayer().doHomeAction(action);
         updatePlayerStatsAnchorPane();
+        updateHomeActionViews();
     }
 
     private void updateHomeActionViews() {
-        if (game.getPlayer().getStats().canSubtract())
+        String nameOfCurrentHomeView = fakeScreenController.getCurrentScreen().getName();
+        nameOfCurrentHomeView = nameOfCurrentHomeView.substring(0, nameOfCurrentHomeView.indexOf("View"));
+        confirmBtn.setDisable(false);
+        if (!game.getPlayer().getStats().canSubtract(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
+            confirmBtn.setDisable(true);
+        }
     }
 }
