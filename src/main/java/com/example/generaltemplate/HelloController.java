@@ -21,11 +21,11 @@ public class HelloController {
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
             nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, upgradeViewAnchorPane,
-            bedViewAnchorPane, playerHomeStatsAnchorPane, startNextDayViewAnchorPane;
+            bedViewAnchorPane, playerHomeStatsAnchorPane, startNextDayViewAnchorPane, homeActionViewAnchorPane;
     @FXML
     public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl;
     @FXML
-    public TextArea guessedLettersTextArea, playEndStatsTextArea;
+    public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatBonusesTextArea, homeActionDescriptionTextArea;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     public final static int BASE_END_TIME = 1;     // in seconds
@@ -35,6 +35,8 @@ public class HelloController {
     public void initialize() {
         guessedLettersTextArea.setEditable(false);
         playEndStatsTextArea.setEditable(false);
+        homeActionStatBonusesTextArea.setEditable(false);
+        homeActionDescriptionTextArea.setEditable(false);
 
         game = new Game();
 
@@ -69,35 +71,35 @@ public class HelloController {
         studyView.addFXMLElement(studyViewAnchorPane);
         studyView.addFXMLElement(playerHomeStatsAnchorPane);
         studyView.addFXMLElement(goBackBtn);
-        studyView.addFXMLElement(confirmBtn);
+        studyView.addFXMLElement(homeActionViewAnchorPane);
         fakeScreenController.add(studyView);
 
         FakeScreen hangOutView = new FakeScreen("hangOutView");
         hangOutView.addFXMLElement(hangOutViewAnchorPane);
         hangOutView.addFXMLElement(playerHomeStatsAnchorPane);
         hangOutView.addFXMLElement(goBackBtn);
-        hangOutView.addFXMLElement(confirmBtn);
+        hangOutView.addFXMLElement(homeActionViewAnchorPane);
         fakeScreenController.add(hangOutView);
 
         FakeScreen gymView = new FakeScreen("gymView");
         gymView.addFXMLElement(gymViewAnchorPane);
         gymView.addFXMLElement(playerHomeStatsAnchorPane);
         gymView.addFXMLElement(goBackBtn);
-        gymView.addFXMLElement(confirmBtn);
+        gymView.addFXMLElement(homeActionViewAnchorPane);
         fakeScreenController.add(gymView);
 
         FakeScreen upgradeView = new FakeScreen("upgradeView");
         upgradeView.addFXMLElement(upgradeViewAnchorPane);
         upgradeView.addFXMLElement(playerHomeStatsAnchorPane);
         upgradeView.addFXMLElement(goBackBtn);
-        upgradeView.addFXMLElement(confirmBtn);
+        upgradeView.addFXMLElement(homeActionViewAnchorPane);
         fakeScreenController.add(upgradeView);
 
         FakeScreen bedView = new FakeScreen("bedView");
         bedView.addFXMLElement(bedViewAnchorPane);
         bedView.addFXMLElement(playerHomeStatsAnchorPane);
         bedView.addFXMLElement(goBackBtn);
-        bedView.addFXMLElement(confirmBtn);
+        bedView.addFXMLElement(homeActionViewAnchorPane);
         fakeScreenController.add(bedView);
 
         fakeScreenController.activate("startView");
