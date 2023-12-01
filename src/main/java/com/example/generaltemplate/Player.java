@@ -4,19 +4,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Player {
-    private final Stats stats;
+    private final PlayerStats playerStats;
     private int addMoneyAmount;
     private final List<HomeAction> allHomeActions;
 
     public Player() {
-        stats = new Stats();
+        playerStats = new PlayerStats();
         addMoneyAmount = 1;
         allHomeActions = Arrays.asList(
-                new Study(new Stats(5, 0, 0)),
-                new HangOut(new Stats(5, 0, 0)),
-                new Gym(new Stats(5, 0, 0)),
-                new Upgrade(new Stats(1, 0, 2)),
-                new Bed(new Stats(0, 0, 0))
+                new Study(),
+                new HangOut(),
+                new Gym(),
+                new Upgrade(),
+                new Bed()
         );
     }
 
@@ -28,15 +28,15 @@ public class Player {
         addMoneyAmount += amt;
     }
 
-    public Stats getStats() {
-        return stats;
+    public PlayerStats getStats() {
+        return playerStats;
     }
 
     public int getAddMoneyAmount() {
         return addMoneyAmount;
     }
 
-    public Stats getHomeActionStatCost(String homeActionName) {
+    public PlayerStats getHomeActionStatCost(String homeActionName) {
         for (HomeAction homeAction: allHomeActions) {
             if (homeAction.getName().equals(homeActionName)) {
                 return homeAction.getStatCost();
@@ -45,26 +45,32 @@ public class Player {
         throw new RuntimeException("Can't' find that HomeAction");
     }
 
-    public void doHomeAction(String action) {
+    private HomeAction findHomeAction(String name) {
         for (HomeAction homeAction: allHomeActions) {
-            if (homeAction.getName().equals(action)) {
-                stats.subtract(homeAction.getStatCost());
-                homeAction.run();
-                return;
+            if (homeAction.getName().equals(name)) {
+                return homeAction;
             }
         }
-        throw new RuntimeException("Can't find action");
+        throw new RuntimeException("Can't find HomeAction");
+    }
+
+    public void doHomeAction(String action) {
+        playerStats.subtract(findHomeAction(action).getStatCost());
+        findHomeAction(action).run();
+    }
+
+    public JobGameStatBonus getHomeActionStatBonus(String action) {
+        return findHomeAction(action).getStatBonus();
     }
 
     private abstract class HomeAction {
-        private final String name;
+        private final JobGameStatBonusTypes jobGameStatBonusType;
         private int upgradePoints;
         private int usePoints;
-        private Stats statCost;
+        private JobGameStatBonus jobGameStatBonus;
 
-        public HomeAction(String name, Stats statCost) {
-            this.name = name;
-            this.statCost = statCost;
+        public HomeAction(JobGameStatBonusTypes jobGameStatBonusTypes) {
+            this.jobGameStatBonusType = jobGameStatBonusType;
         }
 
         public abstract void run();
@@ -77,26 +83,22 @@ public class Player {
             upgradePoints += amt;
         }
 
-        public String getName() {
-            return name;
-        }
-
         public int getUsePoints() {return usePoints;}
         public void incrementUsePoints() {usePoints++;}
 
-        public Stats getStatCost() {
-            return statCost;
+        public String getName() {
+            return jobGameStatBonusType.getName();
         }
 
-        public void setStatCost(Stats statCost) {
-            this.statCost = statCost;
+        public JobGameStatBonus getStatBonus() {
+            return jobGameStatBonus;
         }
     }
 
     private final class Study extends HomeAction {
 
-        public Study(Stats statCost) {
-            super("study", statCost);
+        public Study() {
+            super(JobGameStatBonusTypes);
         }
 
         @Override
@@ -107,8 +109,8 @@ public class Player {
 
     private final class HangOut extends HomeAction {
 
-        public HangOut(Stats statCost) {
-            super("hangOut", statCost);
+        public HangOut() {
+            super(JobGameStatBonusTypes.HANGOUT);
         }
 
         @Override
@@ -119,8 +121,8 @@ public class Player {
 
     private final class Gym extends HomeAction {
 
-        public Gym(Stats statCost) {
-            super("gym", statCost);
+        public Gym() {
+            super(JobGameStatBonusTypes.GYM);
         }
 
         @Override
@@ -131,8 +133,8 @@ public class Player {
 
     private final class Upgrade extends HomeAction {
 
-        public Upgrade(Stats statCost) {
-            super("upgrade", statCost);
+        public Upgrade() {
+            super(JobGameStatBonusTypes.UPGRADE);
         }
 
         @Override
@@ -143,13 +145,13 @@ public class Player {
 
     private final class Bed extends HomeAction {
 
-        public Bed(Stats statCost) {
-            super("bed", statCost);
+        public Bed() {
+            super(JobGameStatBonusTypes.BED);
         }
 
         @Override
         public void run() {
-            stats.set(StatTypes.STAMINA, stats.get(StatTypes.MAX_STAMINA));
+            playerStats.set(StatTypes.STAMINA, playerStats.get(StatTypes.MAX_STAMINA));
         }
     }
 }
