@@ -12,11 +12,13 @@ public class PlayerStats {
         }
     }
 
-    public PlayerStats(int stamina, int maxStamina, int money) {
+    public PlayerStats(int stamina, int maxStamina, int money, int timeBonus, int letterBonus) {
         all = new HashMap<>();
         all.put(StatTypes.STAMINA, stamina);
         all.put(StatTypes.MAX_STAMINA, maxStamina);
         all.put(StatTypes.MONEY, money);
+        all.put(StatTypes.TIME_BONUS, timeBonus);
+        all.put(StatTypes.LETTER_BONUS, letterBonus);
     }
 
     public PlayerStats(PlayerStats statToCopy) {

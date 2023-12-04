@@ -59,18 +59,21 @@ public class Player {
         findHomeAction(action).run();
     }
 
-    public JobGameStatBonus getHomeActionStatBonus(String action) {
+    public PlayerStats getHomeActionStatBonus(String action) {
         return findHomeAction(action).getStatBonus();
     }
 
     private abstract class HomeAction {
-        private final JobGameStatBonusTypes jobGameStatBonusType;
+        private final HomeActionTypes homeActionType;
         private int upgradePoints;
         private int usePoints;
-        private JobGameStatBonus jobGameStatBonus;
+        private PlayerStats statCost;
+        private PlayerStats statBonus;
 
-        public HomeAction(JobGameStatBonusTypes jobGameStatBonusTypes) {
-            this.jobGameStatBonusType = jobGameStatBonusType;
+        public HomeAction(HomeActionTypes homeActionType) {
+            this.homeActionType = homeActionType;
+            statCost = homeActionType.getStatCost();
+            this.statBonus = homeActionType.getStatBonus();
         }
 
         public abstract void run();
@@ -87,18 +90,22 @@ public class Player {
         public void incrementUsePoints() {usePoints++;}
 
         public String getName() {
-            return jobGameStatBonusType.getName();
+            return homeActionType.getName();
         }
 
-        public JobGameStatBonus getStatBonus() {
-            return jobGameStatBonus;
+        public PlayerStats getStatBonus() {
+            return statBonus;
+        }
+
+        public PlayerStats getStatCost() {
+            return statCost;
         }
     }
 
     private final class Study extends HomeAction {
 
         public Study() {
-            super(JobGameStatBonusTypes);
+            super(HomeActionTypes.STUDY);
         }
 
         @Override
@@ -110,7 +117,7 @@ public class Player {
     private final class HangOut extends HomeAction {
 
         public HangOut() {
-            super(JobGameStatBonusTypes.HANGOUT);
+            super(HomeActionTypes.HANGOUT);
         }
 
         @Override
@@ -122,7 +129,7 @@ public class Player {
     private final class Gym extends HomeAction {
 
         public Gym() {
-            super(JobGameStatBonusTypes.GYM);
+            super(HomeActionTypes.GYM);
         }
 
         @Override
@@ -134,7 +141,7 @@ public class Player {
     private final class Upgrade extends HomeAction {
 
         public Upgrade() {
-            super(JobGameStatBonusTypes.UPGRADE);
+            super(HomeActionTypes.UPGRADE);
         }
 
         @Override
@@ -146,11 +153,12 @@ public class Player {
     private final class Bed extends HomeAction {
 
         public Bed() {
-            super(JobGameStatBonusTypes.BED);
+            super(HomeActionTypes.BED);
         }
 
         @Override
         public void run() {
+            incrementUsePoints();
             playerStats.set(StatTypes.STAMINA, playerStats.get(StatTypes.MAX_STAMINA));
         }
     }

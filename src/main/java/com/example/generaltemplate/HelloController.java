@@ -247,8 +247,8 @@ public class HelloController {
         String nameOfCurrentHomeView = fakeScreenController.getCurrentScreen().getName();
         nameOfCurrentHomeView = nameOfCurrentHomeView.substring(0, nameOfCurrentHomeView.indexOf("View"));
         confirmBtn.setDisable(false);
-        homeActionStatBonusesTextArea.setText(game.getPlayer().);
-                homeActionDescriptionTextArea;
+        homeActionStatBonusesTextArea.setText(game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).toString());
+        homeActionDescriptionTextArea.setText("");
         if (!game.getPlayer().getStats().canSubtract(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
             confirmBtn.setDisable(true);
         }
