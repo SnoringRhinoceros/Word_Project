@@ -60,4 +60,19 @@ public class PlayerStats {
         }
         all = newAll;
     }
+
+    public String getString() {
+        StringBuilder result = new StringBuilder();
+        for (StatTypes statType: all.keySet()) {
+            if (all.get(statType) > 0) {
+               result.append(statType.name()).append(": +").append(all.get(statType)).append("\n");
+            } else if (all.get(statType) < 0) {
+                result.append(statType.name()).append(": +").append(all.get(statType)).append("\n");
+            }
+        }
+        if (!result.isEmpty()) {
+            result.insert(0, "Stats:\n");
+        }
+        return result.toString();
+    }
 }
