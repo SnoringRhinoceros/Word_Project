@@ -125,7 +125,7 @@ public class HelloController {
     public class onTimerUpdateTask implements Runnable {
         @Override
         public void run() {
-            if (game.getCurrentJobGame().getTimeElapsed() >= BASE_END_TIME) {
+            if (game.getCurrentJobGame().getTimeElapsed() >= game.getCurrentJobGame().getEndTime()) {
                 fakeScreenController.activate("playEndView");
                 game.getCurrentJobGame().getTimer().cancel();
                 txtInput.clear();
