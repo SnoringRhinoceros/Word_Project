@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Player {
-    private final PlayerStats playerStats;
+    private PlayerStats playerStats;
     private int addMoneyAmount;
     private final List<HomeAction> allHomeActions;
 
@@ -21,15 +21,23 @@ public class Player {
     }
 
     public void addMoney() {
-        getStats().set(StatTypes.MONEY, getStats().get(StatTypes.MONEY) + addMoneyAmount);
+        playerStats.set(StatTypes.MONEY, playerStats.get(StatTypes.MONEY) + addMoneyAmount);
     }
 
     public void addToAddMoneyAmount(int amt) {
         addMoneyAmount += amt;
     }
 
-    public PlayerStats getStats() {
+    public PlayerStats getBaseStats() {
         return playerStats;
+    }
+
+    public PlayerStats getModifStats() {
+        PlayerStats result = playerStats;
+        for (HomeAction homeAction: allHomeActions) {
+            result = result.add(homeAction.getStatBonus().multiply(homeAction.getUsePoints()));
+        }
+        return result;
     }
 
     public int getAddMoneyAmount() {
@@ -55,7 +63,7 @@ public class Player {
     }
 
     public void doHomeAction(String action) {
-        playerStats.subtract(findHomeAction(action).getStatCost());
+        playerStats = playerStats.subtract(findHomeAction(action).getStatCost());
         findHomeAction(action).run();
     }
 
@@ -87,7 +95,9 @@ public class Player {
         }
 
         public int getUsePoints() {return usePoints;}
-        public void incrementUsePoints() {usePoints++;}
+        public void incrementUsePoints() {
+            usePoints++;
+        }
 
         public String getName() {
             return homeActionType.getName();

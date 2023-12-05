@@ -24,7 +24,7 @@ public class JobGame {
         timer = new Timer();
         allTimers.add(timer);
         guesses = new Guesses();
-        endTime = BASE_END_TIME;
+        endTime = BASE_END_TIME + player.getModifStats().get(StatTypes.TIME_BONUS);
     }
 
     public void start(HelloController.onTimerUpdateTask onTimerUpdateTask) {

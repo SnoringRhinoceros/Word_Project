@@ -118,6 +118,7 @@ public class HelloController {
         game.setCurrentJobGame(new JobGame(game.getPlayer()));
         fakeScreenController.activate("playView");
         game.getCurrentJobGame().start(new onTimerUpdateTask());
+        System.out.println(game.getPlayer().getModifStats().getAll().toString());
         updatePlayView();
     }
 
@@ -208,8 +209,8 @@ public class HelloController {
     }
 
     private void updatePlayerStatsAnchorPane() {
-        moneyLbl.setText("Money: " + game.getPlayer().getStats().get(StatTypes.MONEY));
-        staminaLbl.setText("Stamina: " + game.getPlayer().getStats().get(StatTypes.STAMINA) + "/" + game.getPlayer().getStats().get(StatTypes.MAX_STAMINA));
+        moneyLbl.setText("Money: " + game.getPlayer().getBaseStats().get(StatTypes.MONEY));
+        staminaLbl.setText("Stamina: " + game.getPlayer().getBaseStats().get(StatTypes.STAMINA) + "/" + game.getPlayer().getBaseStats().get(StatTypes.MAX_STAMINA));
     }
 
     private String getActionBtnId(ActionEvent actionEvent) {
@@ -249,7 +250,7 @@ public class HelloController {
         confirmBtn.setDisable(false);
         homeActionStatBonusesTextArea.setText(game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString());
         homeActionDescriptionTextArea.setText("");
-        if (!game.getPlayer().getStats().canSubtract(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
+        if (!game.getPlayer().getBaseStats().canSubtract(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
             confirmBtn.setDisable(true);
         }
     }

@@ -4,7 +4,7 @@ public enum HomeActionTypes {
     STUDY("study", new PlayerStats(5, 0, 0, 0, 0),
             new PlayerStats(0, 0, 0, 0, 1)),
     HANGOUT("hangOut", new PlayerStats(5, 0, 0, 0, 0),
-            new PlayerStats(0, 0, 0, 15, 0)),
+            new PlayerStats(0, 0, 0, 30, 0)),
     GYM("gym", new PlayerStats(5, 0, 0, 0 , 0),
             new PlayerStats(0, 5, 0, 0, 0)),
     BED("bed", new PlayerStats(0, 0, 0, 0, 0),

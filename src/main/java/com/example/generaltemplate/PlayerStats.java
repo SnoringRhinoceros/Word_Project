@@ -21,11 +21,8 @@ public class PlayerStats {
         all.put(StatTypes.LETTER_BONUS, letterBonus);
     }
 
-    public PlayerStats(PlayerStats statToCopy) {
-        all = new HashMap<>();
-        all.put(StatTypes.STAMINA, statToCopy.get(StatTypes.STAMINA));
-        all.put(StatTypes.MAX_STAMINA, statToCopy.get(StatTypes.MAX_STAMINA));
-        all.put(StatTypes.MONEY, statToCopy.get(StatTypes.MONEY));
+    public PlayerStats(HashMap<StatTypes, Integer> all) {
+        this.all = all;
     }
 
     public HashMap<StatTypes, Integer> getAll() {
@@ -53,12 +50,28 @@ public class PlayerStats {
         return true;
     }
 
-    public void subtract (PlayerStats statToSubtract) {
+    public PlayerStats add(PlayerStats statToAdd) {
+        HashMap<StatTypes, Integer> newAll = new HashMap<>();
+        for (StatTypes statType : StatTypes.getAll()) {
+            newAll.put(statType, all.get(statType) + statToAdd.get(statType));
+        }
+        return new PlayerStats(newAll);
+    }
+
+    public PlayerStats subtract (PlayerStats statToSubtract) {
         HashMap<StatTypes, Integer> newAll = new HashMap<>();
         for (StatTypes statType : StatTypes.getAll()) {
             newAll.put(statType, all.get(statType) - statToSubtract.get(statType));
         }
-        all = newAll;
+        return new PlayerStats(newAll);
+    }
+
+    public PlayerStats multiply(int multiplyAmt) {
+        HashMap<StatTypes, Integer> newAll = new HashMap<>();
+        for (StatTypes statType : StatTypes.getAll()) {
+            newAll.put(statType, all.get(statType) * multiplyAmt);
+        }
+        return new PlayerStats(newAll);
     }
 
     public String getString() {
@@ -74,5 +87,9 @@ public class PlayerStats {
             result.insert(0, "Stats:\n");
         }
         return result.toString();
+    }
+
+    public void setAll(HashMap<StatTypes, Integer> all) {
+        this.all = all;
     }
 }
