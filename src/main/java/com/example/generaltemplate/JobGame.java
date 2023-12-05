@@ -34,7 +34,7 @@ public class JobGame {
 
     public void makeNewChosenWord() {
         guesses.clear();
-        chosenWord = new ChosenWord();
+        chosenWord = new ChosenWord(player.getModifStats().get(StatTypes.LETTER_BONUS));
         chosenWord.setHiddenChosenWord(guesses);
     }
 

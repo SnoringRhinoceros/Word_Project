@@ -13,7 +13,34 @@ public class ChosenWord {
         System.out.println(text);
     }
 
+    public ChosenWord(int difficulty) {
+        text = getRandWord(difficulty);
+        System.out.println(text);
+    }
+
     private String getRandWord() {
+        try {
+            String path = "src/main/java/com/example/generaltemplate/words.txt";
+            BufferedReader lineNumReader = new BufferedReader(new FileReader(path));
+            int numLines = 0;
+            while (lineNumReader.readLine() != null) {
+                numLines++;
+            }
+            lineNumReader.close();
+
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            int randNum = generateRandNum(0, numLines-1);
+            for (int i = 0; i < randNum; i++) {
+                reader.readLine();
+            }
+            return reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getRandWord(int difficulty) {
         try {
             String path = "src/main/java/com/example/generaltemplate/words.txt";
             BufferedReader lineNumReader = new BufferedReader(new FileReader(path));

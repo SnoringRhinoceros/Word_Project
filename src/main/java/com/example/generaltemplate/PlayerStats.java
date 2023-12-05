@@ -49,7 +49,16 @@ public class PlayerStats {
         }
         return true;
     }
-
+    
+    public void add(StatTypes statTypeToChange, int amt) {
+        for (StatTypes statType: all.keySet()) {
+            if (statType.equals(statTypeToChange)) {
+                all.put(statType, all.get(statType) + amt);
+                break;
+            }
+        }
+    }
+    
     public PlayerStats add(PlayerStats statToAdd) {
         HashMap<StatTypes, Integer> newAll = new HashMap<>();
         for (StatTypes statType : StatTypes.getAll()) {

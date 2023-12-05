@@ -64,7 +64,14 @@ public class Player {
 
     public void doHomeAction(String action) {
         playerStats = playerStats.subtract(findHomeAction(action).getStatCost());
-        findHomeAction(action).run();
+        HomeAction homeAction = findHomeAction(action);
+        homeAction.run();
+        for (StatTypes statType: homeAction.getHomeActionType().getStatBonus().getAll().keySet()) {
+            if (statType.getStatModifType().equals(StatModifTypes.BASE)) {
+                playerStats.add(statType, homeAction.getHomeActionType().getStatBonus().get(statType));
+                homeAction.clearUsePoints();
+            }
+        }
     }
 
     public PlayerStats getHomeActionStatBonus(String action) {
@@ -75,7 +82,7 @@ public class Player {
         for (HomeAction homeAction: allHomeActions) {
             for (StatTypes statBonus: homeAction.getStatBonus().getAll().keySet()) {
                 if (statBonus.getStatModifType().equals(StatModifTypes.JOB_GAME)) {
-                    homeAction.usePoints = 0;
+                    homeAction.clearUsePoints();
                     playerStats.set(statBonus, 0);
                 }
             }
@@ -120,6 +127,14 @@ public class Player {
 
         public PlayerStats getStatCost() {
             return statCost;
+        }
+
+        public HomeActionTypes getHomeActionType() {
+            return homeActionType;
+        }
+        
+        public void clearUsePoints() {
+            usePoints = 0;
         }
     }
 
@@ -179,7 +194,6 @@ public class Player {
 
         @Override
         public void run() {
-            incrementUsePoints();
             playerStats.set(StatTypes.STAMINA, playerStats.get(StatTypes.MAX_STAMINA));
         }
     }
