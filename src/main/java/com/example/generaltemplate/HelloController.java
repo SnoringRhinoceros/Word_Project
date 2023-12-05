@@ -25,7 +25,7 @@ public class HelloController {
     @FXML
     public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl;
     @FXML
-    public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatBonusesTextArea, homeActionDescriptionTextArea;
+    public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatCostTextArea, homeActionDescriptionTextArea;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     public final static int BASE_END_TIME = 1;     // in seconds
@@ -35,7 +35,7 @@ public class HelloController {
     public void initialize() {
         guessedLettersTextArea.setEditable(false);
         playEndStatsTextArea.setEditable(false);
-        homeActionStatBonusesTextArea.setEditable(false);
+        homeActionStatCostTextArea.setEditable(false);
         homeActionDescriptionTextArea.setEditable(false);
 
         game = new Game();
@@ -248,7 +248,7 @@ public class HelloController {
         String nameOfCurrentHomeView = fakeScreenController.getCurrentScreen().getName();
         nameOfCurrentHomeView = nameOfCurrentHomeView.substring(0, nameOfCurrentHomeView.indexOf("View"));
         confirmBtn.setDisable(false);
-        homeActionStatBonusesTextArea.setText(game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString());
+        homeActionStatCostTextArea.setText(game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString());
         homeActionDescriptionTextArea.setText("");
         if (!game.getPlayer().getBaseStats().canSubtract(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
             confirmBtn.setDisable(true);
