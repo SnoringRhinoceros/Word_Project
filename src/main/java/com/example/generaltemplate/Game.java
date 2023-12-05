@@ -16,12 +16,6 @@ public class Game {
         this.currentJobGame = currentJobGame;
     }
 
-    public void givePlayerEndOfDayMoney() {
-        for (int i = 0; i < currentJobGame.getWordsCorrect(); i++) {
-            player.addMoney();
-        }
-    }
-
     public Player getPlayer() {
         return player;
     }

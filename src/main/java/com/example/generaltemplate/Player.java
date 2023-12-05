@@ -71,6 +71,17 @@ public class Player {
         return findHomeAction(action).getStatBonus();
     }
 
+    public void loseAllUsePoints() {
+        for (HomeAction homeAction: allHomeActions) {
+            for (StatTypes statBonus: homeAction.getStatBonus().getAll().keySet()) {
+                if (statBonus.getStatModifType().equals(StatModifTypes.JOB_GAME)) {
+                    homeAction.usePoints = 0;
+                    playerStats.set(statBonus, 0);
+                }
+            }
+        }
+    }
+
     private abstract class HomeAction {
         private final HomeActionTypes homeActionType;
         private int upgradePoints;

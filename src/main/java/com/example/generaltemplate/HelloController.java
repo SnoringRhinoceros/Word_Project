@@ -129,7 +129,7 @@ public class HelloController {
                 fakeScreenController.activate("playEndView");
                 game.getCurrentJobGame().getTimer().cancel();
                 txtInput.clear();
-                game.givePlayerEndOfDayMoney();
+                game.getCurrentJobGame().onEnd();
             }
             Platform.runLater(this::updateFXMLElementsOnTimerUpdate);
         }
