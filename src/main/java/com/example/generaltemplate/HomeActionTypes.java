@@ -1,15 +1,15 @@
 package com.example.generaltemplate;
 
 public enum HomeActionTypes {
-    STUDY("study", new PlayerStats(5, 0, 0, 0, 0),
+    STUDY("study", new PlayerStats(-5, 0, 0, 0, 0),
             new PlayerStats(0, 0, 0, 0, 1)),
-    HANGOUT("hangOut", new PlayerStats(5, 0, 0, 0, 0),
+    HANGOUT("hangOut", new PlayerStats(-5, 0, 0, 0, 0),
             new PlayerStats(0, 0, 0, 30, 0)),
-    GYM("gym", new PlayerStats(5, 0, 0, 0 , 0),
+    GYM("gym", new PlayerStats(-5, 0, 0, 0 , 0),
             new PlayerStats(0, 5, 0, 0, 0)),
     BED("bed", new PlayerStats(0, 0, 0, 0, 0),
             new PlayerStats(0, 0, 0, 0, 0)),
-    UPGRADE("upgrade", new PlayerStats(1, 0, 2, 0, 0),
+    UPGRADE("upgrade", new PlayerStats(-1, 0, -2, 0, 0),
             new PlayerStats(0, 0, 0, 0, 0));
 
     private final String name;

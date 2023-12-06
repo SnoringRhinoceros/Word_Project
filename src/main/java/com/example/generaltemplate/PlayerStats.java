@@ -67,14 +67,6 @@ public class PlayerStats {
         return new PlayerStats(newAll);
     }
 
-    public PlayerStats subtract (PlayerStats statToSubtract) {
-        HashMap<StatTypes, Integer> newAll = new HashMap<>();
-        for (StatTypes statType : StatTypes.getAll()) {
-            newAll.put(statType, all.get(statType) - statToSubtract.get(statType));
-        }
-        return new PlayerStats(newAll);
-    }
-
     public PlayerStats multiply(int multiplyAmt) {
         HashMap<StatTypes, Integer> newAll = new HashMap<>();
         for (StatTypes statType : StatTypes.getAll()) {
@@ -87,13 +79,10 @@ public class PlayerStats {
         StringBuilder result = new StringBuilder();
         for (StatTypes statType: all.keySet()) {
             if (all.get(statType) > 0) {
-               result.append(statType.name()).append(": +").append(all.get(statType)).append("\n");
+               result.append(statType.getName()).append(": +").append(all.get(statType)).append("\n");
             } else if (all.get(statType) < 0) {
-                result.append(statType.name()).append(": +").append(all.get(statType)).append("\n");
+                result.append(statType.getName()).append(": ").append(all.get(statType)).append("\n");
             }
-        }
-        if (!result.isEmpty()) {
-            result.insert(0, "Stats:\n");
         }
         return result.toString();
     }

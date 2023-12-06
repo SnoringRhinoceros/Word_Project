@@ -63,7 +63,7 @@ public class Player {
     }
 
     public void doHomeAction(String action) {
-        playerStats = playerStats.subtract(findHomeAction(action).getStatCost());
+        playerStats = playerStats.add(findHomeAction(action).getStatCost());
         HomeAction homeAction = findHomeAction(action);
         homeAction.run();
         for (StatTypes statType: homeAction.getHomeActionType().getStatBonus().getAll().keySet()) {

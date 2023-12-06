@@ -1,15 +1,18 @@
 package com.example.generaltemplate;
 
 public enum StatTypes {
-    STAMINA(StatModifTypes.BASE, 15),
-    MAX_STAMINA(StatModifTypes.BASE, 15),
-    MONEY(StatModifTypes.BASE, 0),
-    TIME_BONUS(StatModifTypes.JOB_GAME, 0),
-    LETTER_BONUS(StatModifTypes.JOB_GAME, 0);
+    STAMINA("Stamina", StatModifTypes.BASE, 15),
+    MAX_STAMINA("Max Stamina", StatModifTypes.BASE, 15),
+    MONEY("Money", StatModifTypes.BASE, 0),
+    TIME_BONUS("Time Bonus", StatModifTypes.JOB_GAME, 0),
+    LETTER_BONUS("Letter Bonus", StatModifTypes.JOB_GAME, 0);
 
+    private final String name;
     private final int startingVal;
     private final StatModifTypes statModifType;
-    StatTypes(StatModifTypes statModifType, int startingVal) {
+
+    StatTypes(String name, StatModifTypes statModifType, int startingVal) {
+        this.name = name;
         this.statModifType = statModifType;
         this.startingVal = startingVal;
     }
@@ -24,5 +27,9 @@ public enum StatTypes {
 
     public StatModifTypes getStatModifType() {
         return statModifType;
+    }
+
+    public String getName() {
+        return name;
     }
 }
