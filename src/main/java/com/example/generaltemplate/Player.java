@@ -89,6 +89,10 @@ public class Player {
         }
     }
 
+    public String getHomeActionDescription(String action) {
+        return findHomeAction(action).getHomeActionType().getDescription();
+    }
+
     private abstract class HomeAction {
         private final HomeActionTypes homeActionType;
         private int upgradePoints;

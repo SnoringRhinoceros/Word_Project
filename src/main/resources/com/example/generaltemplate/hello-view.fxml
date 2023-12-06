@@ -115,8 +115,8 @@
       <AnchorPane fx:id="homeActionViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
             <Button fx:id="confirmBtn" layoutX="271.0" layoutY="337.0" mnemonicParsing="false" onAction="#confirmBtnClick" text="Confirm" />
-            <TextArea fx:id="homeActionStatCostTextArea" layoutX="47.0" layoutY="103.0" prefHeight="222.0" prefWidth="183.0" />
-            <TextArea fx:id="homeActionDescriptionTextArea" layoutX="294.0" layoutY="103.0" prefHeight="222.0" prefWidth="258.0" />
+            <TextArea fx:id="homeActionStatEffectTextArea" layoutX="47.0" layoutY="103.0" prefHeight="222.0" prefWidth="183.0" />
+            <TextArea fx:id="homeActionDescriptionTextArea" layoutX="294.0" layoutY="103.0" prefHeight="222.0" prefWidth="276.0" />
          </children>
       </AnchorPane>
       <Button fx:id="goBackBtn" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#goBackBtnClick" text="Go Back" />

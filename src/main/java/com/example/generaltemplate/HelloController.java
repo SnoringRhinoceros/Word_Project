@@ -25,7 +25,7 @@ public class HelloController {
     @FXML
     public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl;
     @FXML
-    public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatCostTextArea, homeActionDescriptionTextArea;
+    public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatEffectTextArea, homeActionDescriptionTextArea;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     public final static int BASE_END_TIME = 1;     // in seconds
@@ -35,7 +35,7 @@ public class HelloController {
     public void initialize() {
         guessedLettersTextArea.setEditable(false);
         playEndStatsTextArea.setEditable(false);
-        homeActionStatCostTextArea.setEditable(false);
+        homeActionStatEffectTextArea.setEditable(false);
         homeActionDescriptionTextArea.setEditable(false);
 
         game = new Game();
@@ -248,8 +248,14 @@ public class HelloController {
         String nameOfCurrentHomeView = fakeScreenController.getCurrentScreen().getName();
         nameOfCurrentHomeView = nameOfCurrentHomeView.substring(0, nameOfCurrentHomeView.indexOf("View"));
         confirmBtn.setDisable(false);
-        homeActionStatCostTextArea.setText(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView).getString());
-        homeActionDescriptionTextArea.setText(game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString());
+        homeActionStatEffectTextArea.clear();
+        if (!game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView).getString().isEmpty()) {
+            homeActionStatEffectTextArea.appendText("Stat Cost:\n" + game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView).getString());
+        }
+        if (!game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString().isEmpty()) {
+            homeActionStatEffectTextArea.appendText("\nStat Bonus:\n" + game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString());
+        }
+        homeActionDescriptionTextArea.setText(game.getPlayer().getHomeActionDescription(nameOfCurrentHomeView));
         if (!game.getPlayer().getBaseStats().canSubtract(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
             confirmBtn.setDisable(true);
         }
