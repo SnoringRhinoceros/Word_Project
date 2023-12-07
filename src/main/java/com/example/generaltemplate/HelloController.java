@@ -3,10 +3,8 @@ package com.example.generaltemplate;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
@@ -16,16 +14,19 @@ public class HelloController {
     @FXML
     public TextField txtInput;
     @FXML
-    public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, upgradeBtn, bedBtn, goBackBtn,
+    public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, shoppingBtn, bedBtn, goBackBtn,
             confirmBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
-            nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, upgradeViewAnchorPane,
-            bedViewAnchorPane, playerHomeStatsAnchorPane, startNextDayViewAnchorPane, homeActionViewAnchorPane;
+            nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, shoppingViewAnchorPane,
+            shoppingUpgradeViewAnchorPane, bedViewAnchorPane, playerHomeStatsAnchorPane, startNextDayViewAnchorPane, homeActionViewAnchorPane;
     @FXML
     public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl;
     @FXML
-    public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatEffectTextArea, homeActionDescriptionTextArea;
+    public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatEffectTextArea,
+            homeActionDescriptionTextArea, upgradeStatEffectTextArea, upgradeDescriptionTextArea;
+    @FXML
+    public ButtonBar possibleUpgradesButtonBar;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     public final static int BASE_END_TIME = 1;     // in seconds
@@ -37,6 +38,8 @@ public class HelloController {
         playEndStatsTextArea.setEditable(false);
         homeActionStatEffectTextArea.setEditable(false);
         homeActionDescriptionTextArea.setEditable(false);
+        upgradeStatEffectTextArea.setEditable(false);
+        upgradeDescriptionTextArea.setEditable(false);
 
         game = new Game();
 
@@ -88,12 +91,18 @@ public class HelloController {
         gymView.addFXMLElement(homeActionViewAnchorPane);
         fakeScreenController.add(gymView);
 
-        FakeScreen upgradeView = new FakeScreen("upgradeView");
-        upgradeView.addFXMLElement(upgradeViewAnchorPane);
-        upgradeView.addFXMLElement(playerHomeStatsAnchorPane);
-        upgradeView.addFXMLElement(goBackBtn);
-        upgradeView.addFXMLElement(homeActionViewAnchorPane);
-        fakeScreenController.add(upgradeView);
+        FakeScreen shoppingView = new FakeScreen("shoppingView");
+        shoppingView.addFXMLElement(shoppingViewAnchorPane);
+        shoppingView.addFXMLElement(playerHomeStatsAnchorPane);
+        shoppingView.addFXMLElement(goBackBtn);
+        shoppingView.addFXMLElement(homeActionViewAnchorPane);
+        fakeScreenController.add(shoppingView);
+
+        FakeScreen shoppingUpgradeView = new FakeScreen("shoppingUpgradeView");
+        shoppingUpgradeView.addFXMLElement(shoppingUpgradeViewAnchorPane);
+        shoppingUpgradeView.addFXMLElement(playerHomeStatsAnchorPane);
+        shoppingUpgradeView.addFXMLElement(goBackBtn);
+        fakeScreenController.add(shoppingUpgradeView);
 
         FakeScreen bedView = new FakeScreen("bedView");
         bedView.addFXMLElement(bedViewAnchorPane);
@@ -256,7 +265,7 @@ public class HelloController {
             homeActionStatEffectTextArea.appendText("\nStat Bonus:\n" + game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString());
         }
         homeActionDescriptionTextArea.setText(game.getPlayer().getHomeActionDescription(nameOfCurrentHomeView));
-        if (!game.getPlayer().getBaseStats().canSubtract(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
+        if (!game.getPlayer().getBaseStats().canAdd(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
             confirmBtn.setDisable(true);
         }
     }

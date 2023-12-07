@@ -41,9 +41,9 @@ public class PlayerStats {
         return all.get(statTypes);
     }
 
-    public boolean canSubtract (PlayerStats statToSubtract) {
+    public boolean canAdd (PlayerStats statToSubtract) {
         for (StatTypes statType : StatTypes.getAll()) {
-            if (all.get(statType) - statToSubtract.get(statType) < 0) {
+            if (all.get(statType) + statToSubtract.get(statType) < 0) {
                 return false;
             }
         }

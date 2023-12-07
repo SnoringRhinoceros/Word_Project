@@ -15,7 +15,7 @@ public class Player {
                 new Study(),
                 new HangOut(),
                 new Gym(),
-                new Upgrade(),
+                new Shopping(),
                 new Bed()
         );
     }
@@ -178,10 +178,10 @@ public class Player {
         }
     }
 
-    private final class Upgrade extends HomeAction {
+    private final class Shopping extends HomeAction {
 
-        public Upgrade() {
-            super(HomeActionTypes.UPGRADE);
+        public Shopping() {
+            super(HomeActionTypes.SHOPPING);
         }
 
         @Override

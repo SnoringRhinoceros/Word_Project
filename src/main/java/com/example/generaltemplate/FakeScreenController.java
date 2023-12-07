@@ -21,6 +21,7 @@ public class FakeScreenController {
                     node.setVisible(true);
                 }
                 currentScreen = fakeScreen;
+                break;
             }
         }
     }
