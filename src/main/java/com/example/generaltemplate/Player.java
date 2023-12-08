@@ -67,9 +67,11 @@ public class Player {
         HomeAction homeAction = findHomeAction(action);
         homeAction.run();
         for (StatTypes statType: homeAction.getHomeActionType().getStatBonus().getAll().keySet()) {
-            if (statType.getStatModifType().equals(StatModifTypes.BASE)) {
-                playerStats.add(statType, homeAction.getHomeActionType().getStatBonus().get(statType));
-                homeAction.clearUsePoints();
+            if (homeAction.getHomeActionType().getStatBonus().get(statType) != 0) {
+                if (statType.getStatModifType().equals(StatModifTypes.BASE)) {
+                    playerStats.add(statType, homeAction.getHomeActionType().getStatBonus().get(statType));
+                    homeAction.clearUsePoints();
+                }
             }
         }
     }
