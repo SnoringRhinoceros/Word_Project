@@ -27,6 +27,7 @@ public class HelloController {
             homeActionDescriptionTextArea, upgradeStatEffectTextArea, upgradeDescriptionTextArea;
     @FXML
     public ButtonBar possibleUpgradesButtonBar;
+    private HomeActionTypes chosenHomeActionTypeToUpgrade;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     public final static int BASE_END_TIME = 1;     // in seconds
@@ -227,6 +228,12 @@ public class HelloController {
         return btnId.substring(0, btnId.length()-3);
     }
 
+    private String getActionBtnId(MouseEvent mouseEvent) {
+        String btnId = ((Button) mouseEvent.getTarget()).getId();
+        return btnId.substring(0, btnId.length()-3);
+    }
+
+
     @FXML
     public void atHomeActionBtnClick(ActionEvent actionEvent) {
         String actionId = getActionBtnId(actionEvent);
@@ -240,6 +247,20 @@ public class HelloController {
         homeInit();
     }
 
+    private void updateShoppingUpgradeView() {
+        upgradeStatEffectTextArea.setText("h");
+        upgradeDescriptionTextArea.setText("i");
+    }
+
+    @FXML
+    private void possibleUpgradesButtonBarClick(MouseEvent mouseEvent) {
+        if (getActionBtnId(mouseEvent) != null) {
+            chosenHomeActionTypeToUpgrade = game.getPlayer().findHomeActionType(getActionBtnId(mouseEvent));
+            System.out.println(chosenHomeActionTypeToUpgrade);
+            updateShoppingUpgradeView();
+        }
+    }
+
     @FXML
     public void confirmBtnClick(ActionEvent actionEvent) {
         String action = fakeScreenController.getCurrentScreen().getName();
@@ -247,7 +268,10 @@ public class HelloController {
         game.getPlayer().doHomeAction(action);
         if (action.equals("bed")) {
             fakeScreenController.activate("startNextDayView");
-        } else {
+        } else if (action.equals("shopping")) {
+            fakeScreenController.activate("shoppingUpgradeView");
+            updateShoppingUpgradeView();
+        }else {
             updatePlayerStatsAnchorPane();
             updateHomeActionViews();
         }
@@ -273,5 +297,9 @@ public class HelloController {
     @FXML
     public void startNextDayBtnClick(ActionEvent actionEvent) {
         jobGameInit();
+    }
+
+    @FXML
+    public void confirmShoppingUpgradeBtnClick(ActionEvent actionEvent) {
     }
 }

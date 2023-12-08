@@ -53,13 +53,23 @@ public class Player {
         throw new RuntimeException("Can't' find that HomeAction");
     }
 
-    private HomeAction findHomeAction(String name) {
+    public HomeAction findHomeAction(String name) {
         for (HomeAction homeAction: allHomeActions) {
             if (homeAction.getName().equals(name)) {
                 return homeAction;
             }
         }
         throw new RuntimeException("Can't find HomeAction");
+    }
+
+    public HomeActionTypes findHomeActionType(String name) {
+
+        for (HomeAction homeAction: allHomeActions) {
+            if (homeAction.getName().equals(name)) {
+                return homeAction.getHomeActionType();
+            }
+        }
+        throw new RuntimeException("Can't find HomeActionType");
     }
 
     public void doHomeAction(String action) {
