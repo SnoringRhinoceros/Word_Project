@@ -307,5 +307,7 @@ public class HelloController {
     @FXML
     public void confirmShoppingUpgradeBtnClick(ActionEvent actionEvent) {
         game.getPlayer().incrementUpgradePoints(getShoppingUpgradeBtnAction(chosenHomeActionToUpgradeBtn.getId()));
+        updateShoppingUpgradeView();
+        updatePlayerStatsAnchorPane();
     }
 }
