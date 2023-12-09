@@ -17,7 +17,7 @@ public enum HomeActionTypes {
     BED("bed", new PlayerStats(0, 0, 0, 0, 0),
             new PlayerStats(0, 0, 0, 0, 0),
             "Restores stamina to full,\nbut a new day is started,\nso start campaigning again.", 0),
-    SHOPPING("shopping", new PlayerStats(0, 0, 0, 0, 0),
+    SHOPPING("shopping", new PlayerStats(-2, 0, 0, 0, 0),
             new PlayerStats(0, 0, 0, 0, 0),
             """
                     Through the power of money,

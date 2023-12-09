@@ -75,13 +75,19 @@ public class PlayerStats {
         return new PlayerStats(newAll);
     }
 
-    public String getString() {
+    public String getString(boolean incPlusAndMinusSigns) {
         StringBuilder result = new StringBuilder();
         for (StatTypes statType: all.keySet()) {
-            if (all.get(statType) > 0) {
-               result.append(statType.getName()).append(": +").append(all.get(statType)).append("\n");
-            } else if (all.get(statType) < 0) {
-                result.append(statType.getName()).append(": ").append(all.get(statType)).append("\n");
+            if (incPlusAndMinusSigns) {
+                if (all.get(statType) > 0) {
+                    result.append(statType.getName()).append(": +").append(all.get(statType)).append("\n");
+                } else if (all.get(statType) < 0) {
+                    result.append(statType.getName()).append(": ").append(all.get(statType)).append("\n");
+                }
+            } else {
+                if (all.get(statType) > 0) {
+                    result.append(statType.getName()).append(": ").append(all.get(statType)).append("\n");
+                }
             }
         }
         return result.toString();

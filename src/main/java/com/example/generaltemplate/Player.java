@@ -45,31 +45,20 @@ public class Player {
     }
 
     public PlayerStats getHomeActionStatCost(String homeActionName) {
-        for (HomeAction homeAction: allHomeActions) {
-            if (homeAction.getName().equals(homeActionName)) {
-                return homeAction.getStatCost();
-            }
-        }
-        throw new RuntimeException("Can't' find that HomeAction");
+        return findHomeAction(homeActionName).getStatCost();
     }
 
-    public HomeAction findHomeAction(String name) {
+    public PlayerStats getNextUpgradeStats(String homeActionName) {
+        return findHomeAction(homeActionName).getNextUpgradeStatBonus();
+    }
+
+    private HomeAction findHomeAction(String name) {
         for (HomeAction homeAction: allHomeActions) {
             if (homeAction.getName().equals(name)) {
                 return homeAction;
             }
         }
         throw new RuntimeException("Can't find HomeAction");
-    }
-
-    public HomeActionTypes findHomeActionType(String name) {
-
-        for (HomeAction homeAction: allHomeActions) {
-            if (homeAction.getName().equals(name)) {
-                return homeAction.getHomeActionType();
-            }
-        }
-        throw new RuntimeException("Can't find HomeActionType");
     }
 
     public void doHomeAction(String action) {
@@ -105,12 +94,16 @@ public class Player {
         return findHomeAction(action).getHomeActionType().getDescription();
     }
 
+    public void incrementUpgradePoints(String shoppingUpgradeBtnAction) {
+        findHomeAction(shoppingUpgradeBtnAction).incrementUpgradePoints();
+    }
+
     private abstract class HomeAction {
         private final HomeActionTypes homeActionType;
         private int upgradePoints;
         private int usePoints;
-        private PlayerStats statCost;
-        private PlayerStats statBonus;
+        private final PlayerStats statCost;
+        private final PlayerStats statBonus;
 
         public HomeAction(HomeActionTypes homeActionType) {
             this.homeActionType = homeActionType;
@@ -138,7 +131,25 @@ public class Player {
         }
 
         public PlayerStats getStatBonus() {
-            return statBonus;
+            PlayerStats result = new PlayerStats();
+            for (StatTypes statType: statBonus.getAll().keySet()) {
+                result.set(statType, statBonus.get(statType));
+                if (statBonus.get(statType) > 0) {
+                    result.set(statType, statBonus.get(statType)+(upgradePoints*homeActionType.getScalingBonus()));
+                }
+            }
+            return result;
+        }
+
+        public PlayerStats getNextUpgradeStatBonus() {
+            PlayerStats result = new PlayerStats();
+            for (StatTypes statType: statBonus.getAll().keySet()) {
+                result.set(statType, statBonus.get(statType));
+                if (statBonus.get(statType) > 0) {
+                    result.set(statType, statBonus.get(statType)+((upgradePoints+1)* homeActionType.getScalingBonus()));
+                }
+            }
+            return result;
         }
 
         public PlayerStats getStatCost() {
@@ -151,6 +162,10 @@ public class Player {
         
         public void clearUsePoints() {
             usePoints = 0;
+        }
+
+        public void incrementUpgradePoints() {
+            upgradePoints++;
         }
     }
 
@@ -198,7 +213,6 @@ public class Player {
 
         @Override
         public void run() {
-            addUpgradePoints(1);
         }
     }
 

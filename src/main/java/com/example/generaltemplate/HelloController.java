@@ -30,7 +30,7 @@ public class HelloController {
     private Button chosenHomeActionToUpgradeBtn;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
-    public final static int BASE_END_TIME = 10;     // in seconds
+    public final static int BASE_END_TIME = 0;     // in seconds
     private Game game;
 
     @FXML
@@ -251,8 +251,12 @@ public class HelloController {
             for (Node button: homeActionToUpgradeBtnBar.getButtons()) {
                 button.setDisable(button.getId().equals(chosenHomeActionToUpgradeBtn.getId()));
             }
-            upgradeStatEffectTextArea.setText("h");
-            upgradeDescriptionTextArea.setText("i");
+            String action = getShoppingUpgradeBtnAction(chosenHomeActionToUpgradeBtn.getId());
+            upgradeStatEffectTextArea.setText("Original Stat Bonus:\n"
+                    + game.getPlayer().getHomeActionStatBonus(action).getString(false)
+                    + "\nNew Stat Bonus:\n"
+                    + game.getPlayer().getNextUpgradeStats(action).getString(false));
+            upgradeDescriptionTextArea.setText(game.getPlayer().getHomeActionDescription(action));
         }
     }
 
@@ -273,9 +277,9 @@ public class HelloController {
             fakeScreenController.activate("shoppingUpgradeView");
             updateShoppingUpgradeView();
         }else {
-            updatePlayerStatsAnchorPane();
             updateHomeActionViews();
         }
+        updatePlayerStatsAnchorPane();
     }
 
     private void updateHomeActionViews() {
@@ -283,11 +287,11 @@ public class HelloController {
         nameOfCurrentHomeView = nameOfCurrentHomeView.substring(0, nameOfCurrentHomeView.indexOf("View"));
         confirmBtn.setDisable(false);
         homeActionStatEffectTextArea.clear();
-        if (!game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView).getString().isEmpty()) {
-            homeActionStatEffectTextArea.appendText("Stat Cost:\n" + game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView).getString());
+        if (!game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView).getString(true).isEmpty()) {
+            homeActionStatEffectTextArea.appendText("Stat Cost:\n" + game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView).getString(true));
         }
-        if (!game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString().isEmpty()) {
-            homeActionStatEffectTextArea.appendText("\nStat Bonus:\n" + game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString());
+        if (!game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString(true).isEmpty()) {
+            homeActionStatEffectTextArea.appendText("\nStat Bonus:\n" + game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString(true));
         }
         homeActionDescriptionTextArea.setText(game.getPlayer().getHomeActionDescription(nameOfCurrentHomeView));
         if (!game.getPlayer().getBaseStats().canAdd(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
@@ -302,5 +306,6 @@ public class HelloController {
 
     @FXML
     public void confirmShoppingUpgradeBtnClick(ActionEvent actionEvent) {
+        game.getPlayer().incrementUpgradePoints(getShoppingUpgradeBtnAction(chosenHomeActionToUpgradeBtn.getId()));
     }
 }
