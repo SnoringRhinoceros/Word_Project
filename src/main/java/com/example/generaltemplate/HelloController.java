@@ -3,8 +3,8 @@ package com.example.generaltemplate;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class HelloController {
     public TextField txtInput;
     @FXML
     public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, shoppingBtn, bedBtn, goBackBtn,
-            confirmBtn;
+            confirmBtn, studyHomeActionToUpgradeBtn, hangOutHomeActionToUpgradeBtn, gymHomeActionToUpgradeBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
             nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, shoppingViewAnchorPane,
@@ -26,11 +26,11 @@ public class HelloController {
     public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatEffectTextArea,
             homeActionDescriptionTextArea, upgradeStatEffectTextArea, upgradeDescriptionTextArea;
     @FXML
-    public ButtonBar possibleUpgradesButtonBar;
-    private HomeActionTypes chosenHomeActionTypeToUpgrade;
+    public ButtonBar homeActionToUpgradeBtnBar;
+    private Button chosenHomeActionToUpgradeBtn;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
-    public final static int BASE_END_TIME = 1;     // in seconds
+    public final static int BASE_END_TIME = 10;     // in seconds
     private Game game;
 
     @FXML
@@ -228,11 +228,6 @@ public class HelloController {
         return btnId.substring(0, btnId.length()-3);
     }
 
-    private String getActionBtnId(MouseEvent mouseEvent) {
-        String btnId = ((Button) mouseEvent.getTarget()).getId();
-        return btnId.substring(0, btnId.length()-3);
-    }
-
 
     @FXML
     public void atHomeActionBtnClick(ActionEvent actionEvent) {
@@ -247,18 +242,24 @@ public class HelloController {
         homeInit();
     }
 
+    private String getShoppingUpgradeBtnAction(String shoppingUpgradeBtnId) {
+        return shoppingUpgradeBtnId.substring(0, (shoppingUpgradeBtnId.indexOf("HomeActionToUpgrade")));
+    }
+
     private void updateShoppingUpgradeView() {
-        upgradeStatEffectTextArea.setText("h");
-        upgradeDescriptionTextArea.setText("i");
+        if (chosenHomeActionToUpgradeBtn != null) {
+            for (Node button: homeActionToUpgradeBtnBar.getButtons()) {
+                button.setDisable(button.getId().equals(chosenHomeActionToUpgradeBtn.getId()));
+            }
+            upgradeStatEffectTextArea.setText("h");
+            upgradeDescriptionTextArea.setText("i");
+        }
     }
 
     @FXML
-    private void possibleUpgradesButtonBarClick(MouseEvent mouseEvent) {
-        if (getActionBtnId(mouseEvent) != null) {
-            chosenHomeActionTypeToUpgrade = game.getPlayer().findHomeActionType(getActionBtnId(mouseEvent));
-            System.out.println(chosenHomeActionTypeToUpgrade);
-            updateShoppingUpgradeView();
-        }
+    private void possibleUpgradesButtonBarClick(ActionEvent actionEvent) {
+        chosenHomeActionToUpgradeBtn = (Button) actionEvent.getTarget();
+        updateShoppingUpgradeView();
     }
 
     @FXML

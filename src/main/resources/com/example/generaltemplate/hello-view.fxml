@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.generaltemplate.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.generaltemplate.HelloController">
    <children>
       <AnchorPane fx:id="startViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
@@ -115,11 +115,11 @@
       </AnchorPane>
       <AnchorPane fx:id="shoppingUpgradeViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <ButtonBar fx:id="possibleUpgradesButtonBar" buttonMinWidth="100.0" layoutX="139.0" layoutY="111.0" onMouseClicked="#possibleUpgradesButtonBarClick" prefHeight="40.0" prefWidth="340.0">
+            <ButtonBar fx:id="homeActionToUpgradeBtnBar" buttonMinWidth="100.0" layoutX="139.0" layoutY="111.0" prefHeight="40.0" prefWidth="340.0">
               <buttons>
-                <Button mnemonicParsing="false" text="Study" />
-                  <Button mnemonicParsing="false" text="Hang Out" />
-                  <Button mnemonicParsing="false" text="Gym" />
+                <Button fx:id="studyHomeActionToUpgradeBtn" mnemonicParsing="false" onAction="#possibleUpgradesButtonBarClick" text="Study" />
+                  <Button fx:id="hangOutHomeActionToUpgradeBtn" mnemonicParsing="false" onAction="#possibleUpgradesButtonBarClick" text="Hang Out" />
+                  <Button fx:id="gymHomeActionToUpgradeBtn" mnemonicParsing="false" onAction="#possibleUpgradesButtonBarClick" text="Gym" />
               </buttons>
             </ButtonBar>
             <TextArea fx:id="upgradeStatEffectTextArea" layoutX="123.0" layoutY="163.0" prefHeight="155.0" prefWidth="177.0" />
