@@ -164,7 +164,7 @@ public class HelloController {
 
     private void handleGameEndCon() {
         fakeScreenController.activate("fullScreenImgView");
-        setImageViewImage(fullScreenImageView, "src/main/resources/com/example/generaltemplate/img/Full_Screens/win_screen.png");
+        setImageViewImage(fullScreenImageView, "src/main/resources/com/example/generaltemplate/img/Full_Screens/lose_screen.png");
         for (Node node: startNextDayViewAnchorPane.getChildren()) {
             node.setVisible(false);
         }
