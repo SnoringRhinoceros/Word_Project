@@ -5,7 +5,7 @@ public class Guess {
     private String correctText;
     public Guess(ChosenWord chosenWord, char letter) {
         this.letter = Character.toLowerCase(letter);
-        correctText = getCorrectText(chosenWord.getText().toLowerCase().indexOf(letter) != -1);
+        correctText = getCorrectText(chosenWord.getText().toLowerCase().indexOf(this.letter) != -1);
     }
 
 

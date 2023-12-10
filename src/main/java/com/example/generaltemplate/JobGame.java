@@ -17,7 +17,7 @@ public class JobGame {
     private ChosenWord chosenWord;
     private int wordsCorrect;
     private final Player player;
-    private int endTime;
+    private final int endTime;
 
     public JobGame(Player player) {
         this.player = player;
@@ -59,10 +59,6 @@ public class JobGame {
     }
 
     public void onEnd() {
-        player.addVoters(wordsCorrect);
-        for (int i = 0; i < wordsCorrect; i++) {
-            player.addMoney();
-        }
         player.loseAllUsePoints();
     }
 
@@ -71,6 +67,8 @@ public class JobGame {
         chosenWord.setHiddenChosenWord(guesses);
         if (chosenWord.wordFullyGuessed()) {
             wordsCorrect++;
+            player.addVoters(1);
+            player.addMoney();
         }
     }
 

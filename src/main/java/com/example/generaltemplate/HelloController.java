@@ -156,7 +156,7 @@ public class HelloController {
     }
 
     private void updateVotersGainedLbl() {
-        votersGainedLbl.setText("Voters Gained: " + game.getPlayer().getVotersGained() + "/" + game.getVotersNeeded());
+        votersGainedLbl.setText("Voters needed to tie: " + (game.getVotersNeeded()-game.getPlayer().getVotersGained()));
     }
 
     @FXML
