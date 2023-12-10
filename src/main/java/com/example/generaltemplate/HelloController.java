@@ -37,7 +37,7 @@ public class HelloController {
     public ImageView fullScreenImageView;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
-    public final static int BASE_END_TIME = 0;     // in seconds
+    public final static int BASE_END_TIME = 60;     // in seconds
     private Game game;
 
     @FXML
@@ -164,7 +164,8 @@ public class HelloController {
 
     private void handleGameEndCon() {
         fakeScreenController.activate("fullScreenImgView");
-        setImageViewImage(fullScreenImageView, "src/main/resources/com/example/generaltemplate/img/Full_Screens/lose_screen.png");
+        setImageViewImage(fullScreenImageView, "src/main/resources/com/example/generaltemplate/img/Full_Screens/"
+                + game.getGameEnding().getName() + ".png");
         for (Node node: startNextDayViewAnchorPane.getChildren()) {
             node.setVisible(false);
         }

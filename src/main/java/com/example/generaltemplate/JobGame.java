@@ -59,7 +59,8 @@ public class JobGame {
     }
 
     public void onEnd() {
-        for (int i = 0; i < this.getWordsCorrect(); i++) {
+        player.addVoters(wordsCorrect);
+        for (int i = 0; i < wordsCorrect; i++) {
             player.addMoney();
         }
         player.loseAllUsePoints();

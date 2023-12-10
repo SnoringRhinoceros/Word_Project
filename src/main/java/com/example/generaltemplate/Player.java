@@ -7,6 +7,7 @@ public class Player {
     private PlayerStats playerStats;
     private int addMoneyAmount;
     private final List<HomeAction> allHomeActions;
+    private int votersGained;
 
     public Player() {
         playerStats = new PlayerStats();
@@ -18,14 +19,11 @@ public class Player {
                 new Shopping(),
                 new Bed()
         );
+        votersGained = 0;
     }
 
     public void addMoney() {
         playerStats.set(StatTypes.MONEY, playerStats.get(StatTypes.MONEY) + addMoneyAmount);
-    }
-
-    public void addToAddMoneyAmount(int amt) {
-        addMoneyAmount += amt;
     }
 
     public PlayerStats getBaseStats() {
@@ -42,6 +40,14 @@ public class Player {
 
     public int getAddMoneyAmount() {
         return addMoneyAmount;
+    }
+
+    public int getVotersGained() {
+        return votersGained;
+    }
+
+    public void addVoters(int amt) {
+        votersGained += amt;
     }
 
     public PlayerStats getHomeActionStatCost(String homeActionName) {
