@@ -27,7 +27,7 @@ public class HelloController {
             shoppingUpgradeViewAnchorPane, bedViewAnchorPane, playerHomeStatsAnchorPane, startNextDayViewAnchorPane,
             homeActionViewAnchorPane, fullScreenImgViewAnchorPane;
     @FXML
-    public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl, daysLeftLbl;
+    public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl, daysLeftLbl, votersGainedLbl;
     @FXML
     public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatEffectTextArea,
             homeActionDescriptionTextArea, upgradeStatEffectTextArea, upgradeDescriptionTextArea, endingsReachedTextArea;
@@ -66,6 +66,7 @@ public class HelloController {
         FakeScreen playingView = new FakeScreen("playView");
         playingView.addFXMLElement(playViewAnchorPane);
         playingView.addFXMLElement(daysLeftLbl);
+        playingView.addFXMLElement(votersGainedLbl);
         fakeScreenController.add(playingView);
 
         FakeScreen playEndView = new FakeScreen("playEndView");
@@ -140,18 +141,22 @@ public class HelloController {
         fullScreenImgView.addFXMLElement(fullScreenImgViewAnchorPane);
 
         fakeScreenController.activate("startView");
-        updateStartView();
+        updateEndingsReachedTextArea();
     }
 
     public ArrayList<Timer> getAllTimers() {
         return allTimers;
     }
 
-    private void updateStartView() {
+    private void updateEndingsReachedTextArea() {
         endingsReachedTextArea.setText("Endings Reached (" + game.getEndingsReached().size() + "/" + PossibleEndings.values().length + "):\n");
         for (PossibleEndings endingReached: game.getEndingsReached()) {
             endingsReachedTextArea.appendText(endingReached.getName()+"\n");
         }
+    }
+
+    private void updateVotersGainedLbl() {
+        votersGainedLbl.setText("Voters Gained: " + game.getPlayer().getVotersGained() + "/" + game.getVotersNeeded());
     }
 
     @FXML
@@ -238,6 +243,7 @@ public class HelloController {
                 submitBtn.setDisable(true);
             }
         }
+        updateVotersGainedLbl();
         updateGuessedLettersTextArea();
     }
 

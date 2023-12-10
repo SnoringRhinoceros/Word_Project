@@ -55,4 +55,8 @@ public class Game {
             endingsReached.add(endingReached);
         }
     }
+
+    public int getVotersNeeded() {
+        return votersNeeded;
+    }
 }

@@ -156,5 +156,10 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <Label fx:id="votersGainedLbl" layoutX="20.0" layoutY="100.0" text="Voters Gained:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
