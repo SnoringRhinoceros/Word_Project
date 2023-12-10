@@ -30,7 +30,7 @@ public class HelloController {
     public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl, daysLeftLbl;
     @FXML
     public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatEffectTextArea,
-            homeActionDescriptionTextArea, upgradeStatEffectTextArea, upgradeDescriptionTextArea;
+            homeActionDescriptionTextArea, upgradeStatEffectTextArea, upgradeDescriptionTextArea, endingsReachedTextArea;
     @FXML
     public ButtonBar homeActionToUpgradeBtnBar;
     @FXML
@@ -48,6 +48,7 @@ public class HelloController {
         homeActionDescriptionTextArea.setEditable(false);
         upgradeStatEffectTextArea.setEditable(false);
         upgradeDescriptionTextArea.setEditable(false);
+        endingsReachedTextArea.setEditable(false);
 
         statusTxtLbl.setText("");
         wordToGuessLbl.setText("");
@@ -59,6 +60,7 @@ public class HelloController {
 
         FakeScreen startView = new FakeScreen("startView");
         startView.addFXMLElement(startViewAnchorPane);
+        startView.addFXMLElement(endingsReachedTextArea);
         fakeScreenController.add(startView);
 
         FakeScreen playingView = new FakeScreen("playView");
@@ -138,10 +140,18 @@ public class HelloController {
         fullScreenImgView.addFXMLElement(fullScreenImgViewAnchorPane);
 
         fakeScreenController.activate("startView");
+        updateStartView();
     }
 
     public ArrayList<Timer> getAllTimers() {
         return allTimers;
+    }
+
+    private void updateStartView() {
+        endingsReachedTextArea.setText("Endings Reached (" + game.getEndingsReached().size() + "/" + PossibleEndings.values().length + "):\n");
+        for (PossibleEndings endingReached: game.getEndingsReached()) {
+            endingsReachedTextArea.appendText(endingReached.getName()+"\n");
+        }
     }
 
     @FXML
@@ -164,8 +174,9 @@ public class HelloController {
 
     private void handleGameEndCon() {
         fakeScreenController.activate("fullScreenImgView");
+        game.addEndingReached(game.getCurEnding());
         setImageViewImage(fullScreenImageView, "src/main/resources/com/example/generaltemplate/img/Full_Screens/"
-                + game.getGameEnding().getName() + ".png");
+                + game.getCurEnding().getName() + ".png");
         for (Node node: startNextDayViewAnchorPane.getChildren()) {
             node.setVisible(false);
         }
@@ -215,7 +226,8 @@ public class HelloController {
         } else {
             submitBtn.setText("Submit");
             submitBtn.setDisable(false);
-            if (!txtInput.getText().isEmpty() && txtInput.getText().length() == 1) {
+            String legalWords = "abcdefghijklmnopqrstuvwxyz";
+            if (!txtInput.getText().isEmpty() && txtInput.getText().length() == 1 && legalWords.contains(String.valueOf(txtInput.getText().charAt(0)).toLowerCase())) {
                 for (Guess guess: game.getCurrentJobGame().getGuesses().getAllGuesses()) {
                     if (guess.getLetter() == txtInput.getText().charAt(0)) {
                         submitBtn.setDisable(true);

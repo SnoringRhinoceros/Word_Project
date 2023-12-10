@@ -20,6 +20,7 @@
       <AnchorPane fx:id="startViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
             <Button fx:id="startPlayBtn" layoutX="280.0" layoutY="124.0" mnemonicParsing="false" onAction="#startBtnClick" text="Start" />
+            <TextArea fx:id="endingsReachedTextArea" layoutX="400.0" layoutY="100.0" prefHeight="92.0" prefWidth="149.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="playViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
@@ -115,7 +116,7 @@
       </AnchorPane>
       <AnchorPane fx:id="startNextDayViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <Button fx:id="startNextDayBtn" layoutX="272.0" layoutY="246.0" mnemonicParsing="false" onAction="#startNextDayBtnClick" text="Start" />
+            <Button layoutX="272.0" layoutY="246.0" mnemonicParsing="false" onAction="#startNextDayBtnClick" text="Start" />
             <Label layoutX="173.0" layoutY="150.0" text="Begin Next Day">
                <font>
                   <Font size="38.0" />
