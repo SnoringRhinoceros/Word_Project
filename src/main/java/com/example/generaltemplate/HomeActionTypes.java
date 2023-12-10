@@ -15,7 +15,7 @@ public enum HomeActionTypes {
             5, 2, 20, 3),
     GYM("gym", new PlayerStats(-5, 0, 0, 0 , 0),
             new PlayerStats(0, 5, 0, 0, 0),
-            "Working out is tiring,\nbut benefits overall.",
+            "Working out is tiring,\nbut increases max stamina.",
             5, 2, 20, 3),
     BED("bed", new PlayerStats(0, 0, 0, 0, 0),
             new PlayerStats(0, 0, 0, 0, 0),
