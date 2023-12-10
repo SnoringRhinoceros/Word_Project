@@ -20,14 +20,14 @@ public class HelloController {
     @FXML
     public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, shoppingBtn, bedBtn, goBackBtn,
             confirmBtn, studyHomeActionToUpgradeBtn, hangOutHomeActionToUpgradeBtn, gymHomeActionToUpgradeBtn,
-            chosenHomeActionToUpgradeBtn, confirmShoppingUpgradeBtn, startNextDayBtn;
+            chosenHomeActionToUpgradeBtn, confirmShoppingUpgradeBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
             nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, shoppingViewAnchorPane,
             shoppingUpgradeViewAnchorPane, bedViewAnchorPane, playerHomeStatsAnchorPane, startNextDayViewAnchorPane,
             homeActionViewAnchorPane, fullScreenImgViewAnchorPane;
     @FXML
-    public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl;
+    public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl, daysLeftLbl;
     @FXML
     public TextArea guessedLettersTextArea, playEndStatsTextArea, homeActionStatEffectTextArea,
             homeActionDescriptionTextArea, upgradeStatEffectTextArea, upgradeDescriptionTextArea;
@@ -63,10 +63,12 @@ public class HelloController {
 
         FakeScreen playingView = new FakeScreen("playView");
         playingView.addFXMLElement(playViewAnchorPane);
+        playingView.addFXMLElement(daysLeftLbl);
         fakeScreenController.add(playingView);
 
         FakeScreen playEndView = new FakeScreen("playEndView");
         playEndView.addFXMLElement(playEndViewAnchorPane);
+        playEndView.addFXMLElement(daysLeftLbl);
         fakeScreenController.add(playEndView);
 
         FakeScreen nextDayView = new FakeScreen("nextDayView");
@@ -82,6 +84,7 @@ public class HelloController {
         FakeScreen atHomeView = new FakeScreen("atHomeView");
         atHomeView.addFXMLElement(atHomeViewAnchorPane);
         atHomeView.addFXMLElement(playerHomeStatsAnchorPane);
+        atHomeView.addFXMLElement(daysLeftLbl);
         fakeScreenController.add(atHomeView);
 
         FakeScreen studyView = new FakeScreen("studyView");
@@ -89,6 +92,7 @@ public class HelloController {
         studyView.addFXMLElement(playerHomeStatsAnchorPane);
         studyView.addFXMLElement(goBackBtn);
         studyView.addFXMLElement(homeActionViewAnchorPane);
+        studyView.addFXMLElement(daysLeftLbl);
         fakeScreenController.add(studyView);
 
         FakeScreen hangOutView = new FakeScreen("hangOutView");
@@ -96,6 +100,7 @@ public class HelloController {
         hangOutView.addFXMLElement(playerHomeStatsAnchorPane);
         hangOutView.addFXMLElement(goBackBtn);
         hangOutView.addFXMLElement(homeActionViewAnchorPane);
+        hangOutView.addFXMLElement(daysLeftLbl);
         fakeScreenController.add(hangOutView);
 
         FakeScreen gymView = new FakeScreen("gymView");
@@ -103,6 +108,7 @@ public class HelloController {
         gymView.addFXMLElement(playerHomeStatsAnchorPane);
         gymView.addFXMLElement(goBackBtn);
         gymView.addFXMLElement(homeActionViewAnchorPane);
+        gymView.addFXMLElement(daysLeftLbl);
         fakeScreenController.add(gymView);
 
         FakeScreen shoppingView = new FakeScreen("shoppingView");
@@ -110,12 +116,14 @@ public class HelloController {
         shoppingView.addFXMLElement(playerHomeStatsAnchorPane);
         shoppingView.addFXMLElement(goBackBtn);
         shoppingView.addFXMLElement(homeActionViewAnchorPane);
+        shoppingView.addFXMLElement(daysLeftLbl);
         fakeScreenController.add(shoppingView);
 
         FakeScreen shoppingUpgradeView = new FakeScreen("shoppingUpgradeView");
         shoppingUpgradeView.addFXMLElement(shoppingUpgradeViewAnchorPane);
         shoppingUpgradeView.addFXMLElement(playerHomeStatsAnchorPane);
         shoppingUpgradeView.addFXMLElement(goBackBtn);
+        shoppingUpgradeView.addFXMLElement(daysLeftLbl);
         fakeScreenController.add(shoppingUpgradeView);
 
         FakeScreen bedView = new FakeScreen("bedView");
@@ -123,6 +131,7 @@ public class HelloController {
         bedView.addFXMLElement(playerHomeStatsAnchorPane);
         bedView.addFXMLElement(goBackBtn);
         bedView.addFXMLElement(homeActionViewAnchorPane);
+        bedView.addFXMLElement(daysLeftLbl);
         fakeScreenController.add(bedView);
 
         FakeScreen fullScreenImgView = new FakeScreen("fullScreenImgView");
@@ -156,7 +165,9 @@ public class HelloController {
     private void handleGameEndCon() {
         fakeScreenController.activate("fullScreenImgView");
         setImageViewImage(fullScreenImageView, "src/main/resources/com/example/generaltemplate/img/Full_Screens/win_screen.png");
-        startNextDayBtn.setVisible(false);
+        for (Node node: startNextDayViewAnchorPane.getChildren()) {
+            node.setVisible(false);
+        }
     }
 
     private void setImageViewImage(ImageView imageView, String path) {
@@ -186,7 +197,12 @@ public class HelloController {
         }
     }
 
+    private void updateDaysLeftLbl() {
+        daysLeftLbl.setText("Days left: " + game.getTimeLeft());
+    }
+
     public void updatePlayView() {
+        updateDaysLeftLbl();
         timeLbl.setText("Time: " + game.getCurrentJobGame().getTimeElapsed());
         wordToGuessLbl.setText(game.getCurrentJobGame().getChosenWord().getHiddenChosenWord());
         if (game.getCurrentJobGame().getGuesses().getMostRecentGuess() != null) {
@@ -299,6 +315,7 @@ public class HelloController {
                 confirmShoppingUpgradeBtn.setDisable(false);
             }
         }
+        updateDaysLeftLbl();
     }
 
     @FXML
@@ -342,6 +359,7 @@ public class HelloController {
         || game.getPlayer().getHomeActionUsePoints(nameOfCurrentHomeView) >= game.getPlayer().getHomeActionMaxTotalUsePoints(nameOfCurrentHomeView)) {
             confirmBtn.setDisable(true);
         }
+        updateDaysLeftLbl();
     }
 
     @FXML

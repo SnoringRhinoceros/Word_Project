@@ -26,4 +26,6 @@ public class Game {
         System.out.println(daysPassed);}
 
     public boolean over() {return !(daysPassed < finalDay);}
+
+    public int getTimeLeft() {return finalDay-daysPassed;}
 }
