@@ -15,7 +15,8 @@ public class HelloController {
     public TextField txtInput;
     @FXML
     public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, shoppingBtn, bedBtn, goBackBtn,
-            confirmBtn, studyHomeActionToUpgradeBtn, hangOutHomeActionToUpgradeBtn, gymHomeActionToUpgradeBtn;
+            confirmBtn, studyHomeActionToUpgradeBtn, hangOutHomeActionToUpgradeBtn, gymHomeActionToUpgradeBtn,
+            chosenHomeActionToUpgradeBtn, confirmShoppingUpgradeBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
             nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, shoppingViewAnchorPane,
@@ -27,7 +28,6 @@ public class HelloController {
             homeActionDescriptionTextArea, upgradeStatEffectTextArea, upgradeDescriptionTextArea;
     @FXML
     public ButtonBar homeActionToUpgradeBtnBar;
-    private Button chosenHomeActionToUpgradeBtn;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     public final static int BASE_END_TIME = 0;     // in seconds
@@ -257,6 +257,10 @@ public class HelloController {
                     + "\nNew Stat Bonus:\n"
                     + game.getPlayer().getNextUpgradeStats(action).getString(false));
             upgradeDescriptionTextArea.setText(game.getPlayer().getHomeActionDescription(action));
+            confirmShoppingUpgradeBtn.setDisable(true);
+            if (game.getPlayer().getHomeActionUpgradePoints(action) < game.getPlayer().getHomeActionMaxTotalUpgrade(action)) {
+                confirmShoppingUpgradeBtn.setDisable(false);
+            }
         }
     }
 

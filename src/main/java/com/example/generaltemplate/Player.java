@@ -98,6 +98,12 @@ public class Player {
         findHomeAction(shoppingUpgradeBtnAction).incrementUpgradePoints();
     }
 
+    public int getHomeActionMaxTotalUpgrade(String action) {return findHomeAction(action).getHomeActionType().getMaxTotalUpgrade();}
+
+    public int getHomeActionUpgradePoints(String action) {return findHomeAction(action).getUpgradePoints();}
+
+    public int getHomeActionScalingBonus(String action) {return findHomeAction(action).getHomeActionType().getScalingBonus();}
+
     private abstract class HomeAction {
         private final HomeActionTypes homeActionType;
         private int upgradePoints;

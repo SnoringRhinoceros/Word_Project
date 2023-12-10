@@ -129,7 +129,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button layoutX="274.0" layoutY="330.0" mnemonicParsing="false" onAction="#confirmShoppingUpgradeBtnClick" text="Confirm" />
+            <Button fx:id="confirmShoppingUpgradeBtn" layoutX="274.0" layoutY="330.0" mnemonicParsing="false" onAction="#confirmShoppingUpgradeBtnClick" text="Confirm" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="homeActionViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
