@@ -42,6 +42,12 @@ public class HelloController {
         upgradeStatEffectTextArea.setEditable(false);
         upgradeDescriptionTextArea.setEditable(false);
 
+        statusTxtLbl.setText("");
+        wordToGuessLbl.setText("");
+        timeLbl.setText("");
+        moneyLbl.setText("");
+        staminaLbl.setText("");
+
         game = new Game();
 
         FakeScreen startView = new FakeScreen("startView");
@@ -247,18 +253,19 @@ public class HelloController {
     }
 
     private void updateShoppingUpgradeView() {
+        confirmShoppingUpgradeBtn.setDisable(true);
         if (chosenHomeActionToUpgradeBtn != null) {
             for (Node button: homeActionToUpgradeBtnBar.getButtons()) {
                 button.setDisable(button.getId().equals(chosenHomeActionToUpgradeBtn.getId()));
             }
             String action = getShoppingUpgradeBtnAction(chosenHomeActionToUpgradeBtn.getId());
-            upgradeStatEffectTextArea.setText("Original Stat Bonus:\n"
+            upgradeStatEffectTextArea.setText("Cost to Upgrade:\n" + game.getPlayer().getHomeActionCostToUpgrade(action)
+                    + "\n\nOriginal Stat Bonus:\n"
                     + game.getPlayer().getHomeActionStatBonus(action).getString(false)
                     + "\nNew Stat Bonus:\n"
                     + game.getPlayer().getNextUpgradeStats(action).getString(false));
             upgradeDescriptionTextArea.setText(game.getPlayer().getHomeActionDescription(action));
-            confirmShoppingUpgradeBtn.setDisable(true);
-            if (game.getPlayer().getHomeActionUpgradePoints(action) < game.getPlayer().getHomeActionMaxTotalUpgrade(action)) {
+            if (game.getPlayer().getHomeActionUpgradeBuyable(action)) {
                 confirmShoppingUpgradeBtn.setDisable(false);
             }
         }
@@ -289,7 +296,7 @@ public class HelloController {
     private void updateHomeActionViews() {
         String nameOfCurrentHomeView = fakeScreenController.getCurrentScreen().getName();
         nameOfCurrentHomeView = nameOfCurrentHomeView.substring(0, nameOfCurrentHomeView.indexOf("View"));
-        confirmBtn.setDisable(false);
+
         homeActionStatEffectTextArea.clear();
         if (!game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView).getString(true).isEmpty()) {
             homeActionStatEffectTextArea.appendText("Stat Cost:\n" + game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView).getString(true));
@@ -297,8 +304,12 @@ public class HelloController {
         if (!game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString(true).isEmpty()) {
             homeActionStatEffectTextArea.appendText("\nStat Bonus:\n" + game.getPlayer().getHomeActionStatBonus(nameOfCurrentHomeView).getString(true));
         }
-        homeActionDescriptionTextArea.setText(game.getPlayer().getHomeActionDescription(nameOfCurrentHomeView));
-        if (!game.getPlayer().getBaseStats().canAdd(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))) {
+        homeActionDescriptionTextArea.setText(game.getPlayer().getHomeActionDescription(nameOfCurrentHomeView)
+                + "\n\nMax Total Times Doable:\n" + (game.getPlayer().getHomeActionMaxTotalUsePoints(nameOfCurrentHomeView)-game.getPlayer().getHomeActionUsePoints(nameOfCurrentHomeView)));
+
+        confirmBtn.setDisable(false);
+        if (!game.getPlayer().getBaseStats().canAdd(game.getPlayer().getHomeActionStatCost(nameOfCurrentHomeView))
+        || game.getPlayer().getHomeActionUsePoints(nameOfCurrentHomeView) >= game.getPlayer().getHomeActionMaxTotalUsePoints(nameOfCurrentHomeView)) {
             confirmBtn.setDisable(true);
         }
     }
@@ -310,7 +321,9 @@ public class HelloController {
 
     @FXML
     public void confirmShoppingUpgradeBtnClick(ActionEvent actionEvent) {
-        game.getPlayer().incrementUpgradePoints(getShoppingUpgradeBtnAction(chosenHomeActionToUpgradeBtn.getId()));
+        String action = getShoppingUpgradeBtnAction(chosenHomeActionToUpgradeBtn.getId());
+        game.getPlayer().getBaseStats().add(StatTypes.MONEY, -game.getPlayer().getHomeActionCostToUpgrade(action));
+        game.getPlayer().incrementUpgradePoints(action);
         updateShoppingUpgradeView();
         updatePlayerStatsAnchorPane();
     }

@@ -102,7 +102,14 @@ public class Player {
 
     public int getHomeActionUpgradePoints(String action) {return findHomeAction(action).getUpgradePoints();}
 
-    public int getHomeActionScalingBonus(String action) {return findHomeAction(action).getHomeActionType().getScalingBonus();}
+    public int getHomeActionMaxTotalUsePoints(String action) {return findHomeAction(action).getHomeActionType().getMaxTotalUsePoints();}
+
+    public int getHomeActionUsePoints(String action) {return findHomeAction(action).getUsePoints();}
+
+    public boolean getHomeActionUpgradeBuyable(String action) {return playerStats.get(StatTypes.MONEY) >= findHomeAction(action).getHomeActionType().getCostToUpgrade()
+            && getHomeActionUpgradePoints(action) < getHomeActionMaxTotalUsePoints(action);}
+
+    public int getHomeActionCostToUpgrade(String action) {return findHomeAction(action).getHomeActionType().getCostToUpgrade();}
 
     private abstract class HomeAction {
         private final HomeActionTypes homeActionType;
