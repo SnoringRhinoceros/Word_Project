@@ -20,7 +20,7 @@ public class HelloController {
     @FXML
     public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, shoppingBtn, bedBtn, goBackBtn,
             confirmBtn, studyHomeActionToUpgradeBtn, hangOutHomeActionToUpgradeBtn, gymHomeActionToUpgradeBtn,
-            chosenHomeActionToUpgradeBtn, confirmShoppingUpgradeBtn;
+            chosenHomeActionToUpgradeBtn, confirmShoppingUpgradeBtn, newGameBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
             nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, shoppingViewAnchorPane,
@@ -37,7 +37,7 @@ public class HelloController {
     public ImageView fullScreenImageView;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
-    public final static int BASE_END_TIME = 60;     // in seconds
+    public final static int BASE_END_TIME = 0;     // in seconds
     private Game game;
 
     @FXML
@@ -139,6 +139,7 @@ public class HelloController {
 
         FakeScreen fullScreenImgView = new FakeScreen("fullScreenImgView");
         fullScreenImgView.addFXMLElement(fullScreenImgViewAnchorPane);
+        fakeScreenController.add(fullScreenImgView);
 
         fakeScreenController.activate("startView");
         updateEndingsReachedTextArea();
@@ -170,7 +171,6 @@ public class HelloController {
             game.setCurrentJobGame(new JobGame(game.getPlayer()));
             fakeScreenController.activate("playView");
             game.getCurrentJobGame().start(new onTimerUpdateTask());
-            System.out.println(game.getPlayer().getModifStats().getAll().toString());
             updatePlayView();
         } else {
             handleGameEndCon();
@@ -182,9 +182,6 @@ public class HelloController {
         game.addEndingReached(game.getCurEnding());
         setImageViewImage(fullScreenImageView, "src/main/resources/com/example/generaltemplate/img/Full_Screens/"
                 + game.getCurEnding().getName() + ".png");
-        for (Node node: startNextDayViewAnchorPane.getChildren()) {
-            node.setVisible(false);
-        }
     }
 
     private void setImageViewImage(ImageView imageView, String path) {
@@ -195,7 +192,6 @@ public class HelloController {
             e.printStackTrace();
         }
     }
-
     public class onTimerUpdateTask implements Runnable {
         @Override
         public void run() {
@@ -393,5 +389,11 @@ public class HelloController {
         game.getPlayer().incrementUpgradePoints(action);
         updateShoppingUpgradeView();
         updatePlayerStatsAnchorPane();
+    }
+
+    @FXML
+    public void newGameBtnClick(ActionEvent actionEvent) {
+        game.reset();
+        fakeScreenController.activate("startView");
     }
 }

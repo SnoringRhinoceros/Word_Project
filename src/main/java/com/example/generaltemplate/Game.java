@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Game {
     private JobGame currentJobGame;
-    private final Player player;
+    private Player player;
     private int daysPassed;
     private final int finalDay = 2;
     private final int votersNeeded = 1;
@@ -58,5 +58,10 @@ public class Game {
 
     public int getVotersNeeded() {
         return votersNeeded;
+    }
+
+    public void reset() {
+        this.player = new Player();
+        daysPassed = 0;
     }
 }
