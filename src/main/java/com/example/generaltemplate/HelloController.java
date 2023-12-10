@@ -9,8 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -150,9 +149,9 @@ public class HelloController {
     }
 
     private void updateEndingsReachedTextArea() {
-        endingsReachedTextArea.setText("Endings Reached (" + game.getEndingsReached().size() + "/" + PossibleEndings.values().length + "):\n");
-        for (PossibleEndings endingReached: game.getEndingsReached()) {
-            endingsReachedTextArea.appendText(endingReached.getName()+"\n");
+        endingsReachedTextArea.setText("Endings Reached (" + game.getEndingsReached().getAll().size() + "/" + PossibleEndings.values().length + "):\n");
+        for (PossibleEndings endingReached: game.getEndingsReached().getAll()) {
+            endingsReachedTextArea.appendText(endingReached.getName().substring(0, endingReached.getName().indexOf("_screen"))+"\n");
         }
     }
 
@@ -192,6 +191,7 @@ public class HelloController {
             e.printStackTrace();
         }
     }
+
     public class onTimerUpdateTask implements Runnable {
         @Override
         public void run() {
@@ -395,5 +395,22 @@ public class HelloController {
     public void newGameBtnClick(ActionEvent actionEvent) {
         game.reset();
         fakeScreenController.activate("startView");
+    }
+
+    @FXML
+    public void saveEndingsReachedBtnClick(ActionEvent actionEvent) throws IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/com/example/generaltemplate/Saved_Endings/endings_reached.txt");
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(game.getEndingsReached());
+        objectOutputStream.flush();
+        objectOutputStream.close();
+    }
+
+    @FXML
+    public void loadSavedEndingsBtnClick(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream("src/main/resources/com/example/generaltemplate/Saved_Endings/endings_reached.txt");
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        game.setEndingsReached((EndingsReached) objectInputStream.readObject());
+        updateEndingsReachedTextArea();
     }
 }

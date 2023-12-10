@@ -1,7 +1,5 @@
 package com.example.generaltemplate;
 
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
 
 public class Game {
@@ -10,11 +8,11 @@ public class Game {
     private int daysPassed;
     private final int finalDay = 2;
     private final int votersNeeded = 1;
-    private final ArrayList<PossibleEndings> endingsReached;
+    private EndingsReached endingsReached;
 
     public Game() {
         player = new Player();
-        endingsReached = new ArrayList<>();
+        endingsReached = new EndingsReached();
     }
 
     public JobGame getCurrentJobGame() {
@@ -46,13 +44,13 @@ public class Game {
         throw new RuntimeException("Ending not possible");
     }
 
-    public ArrayList<PossibleEndings> getEndingsReached() {
+    public EndingsReached getEndingsReached() {
         return endingsReached;
     }
 
     public void addEndingReached(PossibleEndings endingReached) {
-        if (!endingsReached.contains(endingReached)) {
-            endingsReached.add(endingReached);
+        if (!endingsReached.getAll().contains(endingReached)) {
+            endingsReached.getAll().add(endingReached);
         }
     }
 
@@ -63,5 +61,9 @@ public class Game {
     public void reset() {
         this.player = new Player();
         daysPassed = 0;
+    }
+
+    public void setEndingsReached(EndingsReached endingsReached) {
+        this.endingsReached = endingsReached;
     }
 }

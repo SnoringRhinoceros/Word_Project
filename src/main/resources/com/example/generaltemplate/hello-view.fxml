@@ -26,6 +26,8 @@
          <children>
             <Button fx:id="startPlayBtn" layoutX="280.0" layoutY="124.0" mnemonicParsing="false" onAction="#startBtnClick" text="Start" />
             <TextArea fx:id="endingsReachedTextArea" layoutX="400.0" layoutY="100.0" prefHeight="92.0" prefWidth="149.0" />
+            <Button layoutX="432.0" layoutY="214.0" mnemonicParsing="false" onAction="#saveEndingsReachedBtnClick" text="Save Endings Reached" />
+            <Button layoutX="432.0" layoutY="250.0" mnemonicParsing="false" onAction="#loadSavedEndingsBtnClick" text="Load Saved Endings" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="playViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
