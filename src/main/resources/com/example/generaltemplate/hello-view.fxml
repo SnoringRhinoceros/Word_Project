@@ -12,6 +12,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.generaltemplate.HelloController">
    <children>
+      <AnchorPane fx:id="fullScreenImgViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <ImageView fx:id="fullScreenImageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="startViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
             <Button fx:id="startPlayBtn" layoutX="280.0" layoutY="124.0" mnemonicParsing="false" onAction="#startBtnClick" text="Start" />
@@ -110,7 +115,7 @@
       </AnchorPane>
       <AnchorPane fx:id="startNextDayViewAnchorPane" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <Button layoutX="272.0" layoutY="246.0" mnemonicParsing="false" onAction="#startNextDayBtnClick" text="Start" />
+            <Button fx:id="startNextDayBtn" layoutX="272.0" layoutY="246.0" mnemonicParsing="false" onAction="#startNextDayBtnClick" text="Start" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="shoppingUpgradeViewAnchorPane" prefHeight="400.0" prefWidth="600.0">

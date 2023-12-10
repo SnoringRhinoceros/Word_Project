@@ -27,7 +27,7 @@ public enum HomeActionTypes {
                     Through the power of money,
                     you can upgrade the other actions.
                     Upgrades other home actions to have better stats""",
-            0, 0, 20, 0);
+            0, 0, 1, 0);
 
     private final String name;
     private final PlayerStats statCost;

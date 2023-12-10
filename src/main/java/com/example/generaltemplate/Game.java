@@ -3,6 +3,8 @@ package com.example.generaltemplate;
 public class Game {
     private JobGame currentJobGame;
     private final Player player;
+    private int daysPassed;
+    private final int finalDay = 2;
 
     public Game() {
         player = new Player();
@@ -19,4 +21,9 @@ public class Game {
     public Player getPlayer() {
         return player;
     }
+
+    public void incrementDaysPassed() {daysPassed++;
+        System.out.println(daysPassed);}
+
+    public boolean over() {return !(daysPassed < finalDay);}
 }

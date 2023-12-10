@@ -5,8 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -16,11 +20,12 @@ public class HelloController {
     @FXML
     public Button startPlayBtn, submitBtn, studyBtn, hangOutBtn, gymBtn, shoppingBtn, bedBtn, goBackBtn,
             confirmBtn, studyHomeActionToUpgradeBtn, hangOutHomeActionToUpgradeBtn, gymHomeActionToUpgradeBtn,
-            chosenHomeActionToUpgradeBtn, confirmShoppingUpgradeBtn;
+            chosenHomeActionToUpgradeBtn, confirmShoppingUpgradeBtn, startNextDayBtn;
     @FXML
     public AnchorPane startViewAnchorPane,  playViewAnchorPane, playEndViewAnchorPane, atHomeViewAnchorPane,
             nextDayAnchorPane, studyViewAnchorPane, hangOutViewAnchorPane, gymViewAnchorPane, shoppingViewAnchorPane,
-            shoppingUpgradeViewAnchorPane, bedViewAnchorPane, playerHomeStatsAnchorPane, startNextDayViewAnchorPane, homeActionViewAnchorPane;
+            shoppingUpgradeViewAnchorPane, bedViewAnchorPane, playerHomeStatsAnchorPane, startNextDayViewAnchorPane,
+            homeActionViewAnchorPane, fullScreenImgViewAnchorPane;
     @FXML
     public Label timeLbl, wordToGuessLbl, statusTxtLbl, moneyLbl, staminaLbl;
     @FXML
@@ -28,6 +33,8 @@ public class HelloController {
             homeActionDescriptionTextArea, upgradeStatEffectTextArea, upgradeDescriptionTextArea;
     @FXML
     public ButtonBar homeActionToUpgradeBtnBar;
+    @FXML
+    public ImageView fullScreenImageView;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     public final static int BASE_END_TIME = 0;     // in seconds
@@ -118,6 +125,9 @@ public class HelloController {
         bedView.addFXMLElement(homeActionViewAnchorPane);
         fakeScreenController.add(bedView);
 
+        FakeScreen fullScreenImgView = new FakeScreen("fullScreenImgView");
+        fullScreenImgView.addFXMLElement(fullScreenImgViewAnchorPane);
+
         fakeScreenController.activate("startView");
     }
 
@@ -131,11 +141,31 @@ public class HelloController {
     }
 
     private void jobGameInit() {
-        game.setCurrentJobGame(new JobGame(game.getPlayer()));
-        fakeScreenController.activate("playView");
-        game.getCurrentJobGame().start(new onTimerUpdateTask());
-        System.out.println(game.getPlayer().getModifStats().getAll().toString());
-        updatePlayView();
+        game.incrementDaysPassed();
+        if (!game.over()) {
+            game.setCurrentJobGame(new JobGame(game.getPlayer()));
+            fakeScreenController.activate("playView");
+            game.getCurrentJobGame().start(new onTimerUpdateTask());
+            System.out.println(game.getPlayer().getModifStats().getAll().toString());
+            updatePlayView();
+        } else {
+            handleGameEndCon();
+        }
+    }
+
+    private void handleGameEndCon() {
+        fakeScreenController.activate("fullScreenImgView");
+        setImageViewImage(fullScreenImageView, "src/main/resources/com/example/generaltemplate/img/Full_Screens/win_screen.png");
+        startNextDayBtn.setVisible(false);
+    }
+
+    private void setImageViewImage(ImageView imageView, String path) {
+        try {
+            FileInputStream input = new FileInputStream(path);
+            imageView.setImage(new Image(input));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public class onTimerUpdateTask implements Runnable {
