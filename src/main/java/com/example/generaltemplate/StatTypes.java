@@ -1,8 +1,8 @@
 package com.example.generaltemplate;
 
 public enum StatTypes {
-    STAMINA("Stamina", StatModifTypes.BASE, 15),
-    MAX_STAMINA("Max Stamina", StatModifTypes.BASE, 15),
+    STAMINA("Stamina", StatModifTypes.BASE, 10),
+    MAX_STAMINA("Max Stamina", StatModifTypes.BASE, 10),
     MONEY("Money", StatModifTypes.BASE, 0),
     TIME_BONUS("Time Bonus", StatModifTypes.JOB_GAME, 0),
     LETTER_BONUS("Letter Bonus", StatModifTypes.JOB_GAME, 0);

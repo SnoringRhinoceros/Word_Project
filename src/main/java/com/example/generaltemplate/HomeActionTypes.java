@@ -1,11 +1,11 @@
 package com.example.generaltemplate;
 
 public enum HomeActionTypes {
-    STUDY("study", new PlayerStats(-5, 0, 0, 0, 0),
+    STUDY("study", new PlayerStats(-15, 0, 0, 0, 0),
             new PlayerStats(0, 0, 0, 0, 1),
             "Studying takes stamina,\nbut it makes hangman words easier.",
             1, 2, 1, 5),
-    HANGOUT("hangOut", new PlayerStats(-6, 0, 0, 0, 0),
+    HANGOUT("hangOut", new PlayerStats(-5, 0, 0, 0, 0),
             new PlayerStats(0, 0, 0, 20, 0),
             """
                     They say, time flies when you're having fun.

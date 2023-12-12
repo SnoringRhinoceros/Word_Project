@@ -5,8 +5,8 @@ public class Game {
     private JobGame currentJobGame;
     private Player player;
     private int daysPassed;
-    private final int finalDay = 2;
-    private final int votersNeeded = 1;
+    private final int finalDay = 8;
+    private final int votersNeeded = 10;
     private EndingsReached endingsReached;
 
     public Game() {
