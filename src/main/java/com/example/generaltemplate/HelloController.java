@@ -157,7 +157,17 @@ public class HelloController {
     }
 
     private void updateVotersGainedLbl() {
-        votersGainedLbl.setText("Voters needed to tie: " + (game.getVotersNeeded()-game.getPlayer().getVotersGained()));
+        int votersNeededToTie = game.getVotersNeeded()-game.getPlayer().getVotersGained();
+        votersGainedLbl.setText("Voters needed to tie: ");
+        if (votersNeededToTie > 0) {
+            appendTextToLabel(votersGainedLbl, String.valueOf(votersNeededToTie));
+        } else {
+            appendTextToLabel(votersGainedLbl, "0");
+        }
+    }
+
+    private void appendTextToLabel(Label label, String text) {
+        label.setText(label.getText() + text);
     }
 
     @FXML
