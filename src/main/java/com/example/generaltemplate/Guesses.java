@@ -7,7 +7,6 @@ public class Guesses {
     private Guess mostRecentGuess;
     private final ArrayList<Guess> correctGuesses;
     private final ArrayList<Guess> incorrectGuesses;
-    private int wordsCorrect;
 
     public Guesses() {
         allGuesses = new ArrayList<>();
@@ -47,9 +46,5 @@ public class Guesses {
 
     public ArrayList<Guess> getIncorrectGuesses() {
         return incorrectGuesses;
-    }
-
-    public int getWordsCorrect() {
-        return wordsCorrect;
     }
 }

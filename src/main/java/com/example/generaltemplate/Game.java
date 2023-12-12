@@ -1,6 +1,5 @@
 package com.example.generaltemplate;
 
-import java.util.ArrayList;
 
 public class Game {
     private JobGame currentJobGame;

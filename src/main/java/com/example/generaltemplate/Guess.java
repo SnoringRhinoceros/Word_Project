@@ -1,8 +1,8 @@
 package com.example.generaltemplate;
 
 public class Guess {
-    private char letter;
-    private String correctText;
+    private final char letter;
+    private final String correctText;
     public Guess(ChosenWord chosenWord, char letter) {
         this.letter = Character.toLowerCase(letter);
         correctText = getCorrectText(chosenWord.getText().toLowerCase().indexOf(this.letter) != -1);

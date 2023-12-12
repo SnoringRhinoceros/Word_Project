@@ -33,7 +33,7 @@ public class HelloController {
     @FXML
     public ButtonBar homeActionToUpgradeBtnBar;
     @FXML
-    public ImageView fullScreenImageView, startScreenImageView;;
+    public ImageView fullScreenImageView, startScreenImageView;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     public final static int BASE_END_TIME = 30;     // in seconds

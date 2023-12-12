@@ -52,7 +52,6 @@ public class ChosenWord {
             }
             if (wordFound) {
                 hiddenChosenWord += c;
-                wordFound = false;
             } else {
                 hiddenChosenWord += "_";
             }
