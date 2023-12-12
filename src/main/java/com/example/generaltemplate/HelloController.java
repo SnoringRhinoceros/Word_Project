@@ -36,7 +36,7 @@ public class HelloController {
     public ImageView fullScreenImageView;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
-    public final static int BASE_END_TIME = 0;     // in seconds
+    public final static int BASE_END_TIME = 30;     // in seconds
     private Game game;
 
     @FXML
@@ -153,6 +153,7 @@ public class HelloController {
         for (PossibleEndings endingReached: game.getEndingsReached().getAll()) {
             endingsReachedTextArea.appendText(endingReached.getName().substring(0, endingReached.getName().indexOf("_screen"))+"\n");
         }
+        endingsReachedTextArea.setText(endingsReachedTextArea.getText(0, endingsReachedTextArea.getLength()-1)); // removes the last \n from the text area
     }
 
     private void updateVotersGainedLbl() {
@@ -395,6 +396,7 @@ public class HelloController {
     public void newGameBtnClick(ActionEvent actionEvent) {
         game.reset();
         fakeScreenController.activate("startView");
+        updateEndingsReachedTextArea();
     }
 
     @FXML
