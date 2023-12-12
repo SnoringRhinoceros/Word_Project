@@ -25,7 +25,7 @@ public class HelloApplication extends Application {
         });
 
         Scene scene = new Scene(root);
-        stage.setTitle("Hello!");
+        stage.setTitle("David says hi");
         stage.setScene(scene);
         stage.show();
     }

@@ -33,7 +33,7 @@ public class HelloController {
     @FXML
     public ButtonBar homeActionToUpgradeBtnBar;
     @FXML
-    public ImageView fullScreenImageView;
+    public ImageView fullScreenImageView, startScreenImageView;;
     private final FakeScreenController fakeScreenController = new FakeScreenController();
     public final static ArrayList<Timer> allTimers = new ArrayList<>();
     public final static int BASE_END_TIME = 30;     // in seconds
@@ -54,6 +54,8 @@ public class HelloController {
         timeLbl.setText("");
         moneyLbl.setText("");
         staminaLbl.setText("");
+
+        setImageViewImage(startScreenImageView, "src/main/resources/com/example/generaltemplate/img/Start_Screen/start_screen.png");
 
         game = new Game();
 
